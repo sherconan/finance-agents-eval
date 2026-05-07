@@ -1,0 +1,295 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-05-08T02:23:56.703591",
+  "evaluator": "Claude P8 (sherconan local sprint)",
+  "release": {
+    "vendor": "Anthropic",
+    "release_date": "2026-05-05",
+    "source_url": "https://www.anthropic.com/news/finance-agents",
+    "claude_code_version": "2.1.132"
+  },
+  "rubric": {
+    "completeness": 0.3,
+    "professionalism": 0.25,
+    "accuracy": 0.25,
+    "usability": 0.2
+  },
+  "summary": {
+    "agents_evaluated": 10,
+    "avg_total": 8.45,
+    "top_3": [
+      "valuation-reviewer",
+      "gl-reconciler",
+      "earnings-reviewer"
+    ],
+    "bottom_3": [
+      "market-researcher",
+      "pitch-builder",
+      "model-builder"
+    ]
+  },
+  "results": [
+    {
+      "name": "Valuation Reviewer",
+      "category": "operations",
+      "icon": "🔬",
+      "completeness": 9.0,
+      "professionalism": 9.0,
+      "accuracy": 9.0,
+      "usability": 8.5,
+      "speed_sec": 38,
+      "strengths": [
+        "三个植入错误全部命中（含致命的 g > WACC）",
+        "修正方案给出量化 impact（USD 142 → USD 38）",
+        "Comp set 替换建议具体可执行"
+      ],
+      "weaknesses": [
+        "未对所有 hard-coded cell 做 100% formula audit（仅 high-level review）"
+      ],
+      "verdict": "投决前模型自审 / 实习生第一稿模型回顾的 must-have agent。",
+      "best_for": "投委会前 model audit, 第二意见, peer review",
+      "total": 8.9,
+      "slug": "valuation-reviewer",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/06-valuation-reviewer.md",
+      "rank": 1
+    },
+    {
+      "name": "GL Reconciler",
+      "category": "operations",
+      "icon": "📚",
+      "completeness": 9.0,
+      "professionalism": 8.5,
+      "accuracy": 9.0,
+      "usability": 8.0,
+      "speed_sec": 32,
+      "strengths": [
+        "三种异常类型（timing / policy / integration gap）全覆盖",
+        "调整分录 GL 借贷格式合规",
+        "试算平衡校验闭环"
+      ],
+      "weaknesses": [
+        "需用户先准备 GL + subledger 数据，未直接接 ERP",
+        "审计底稿格式（PBC list 等）未生成"
+      ],
+      "verdict": "Controller 对账工作的 80% 体力活外包，效率提升显著。",
+      "best_for": "月末对账, 季度预审计 PBC, 内审 GL 抽样",
+      "total": 8.68,
+      "slug": "gl-reconciler",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/07-gl-reconciler.md",
+      "rank": 2
+    },
+    {
+      "name": "Earnings Reviewer",
+      "category": "research",
+      "icon": "📈",
+      "completeness": 9.0,
+      "professionalism": 9.0,
+      "accuracy": 7.5,
+      "usability": 9.0,
+      "speed_sec": 42,
+      "strengths": [
+        "Surprise 表 + segment read + takeaway + model 调整 — 卖方 morning note 完整体例",
+        "PT bump + rating 给到具体数字",
+        "DC / Networking / Margin 三条线索清晰"
+      ],
+      "weaknesses": [
+        "Conference call 关键引述未引入",
+        "Real-data anchor 已加，深度数据集成（earnings transcript、年报 XBRL）仍需进一步对接"
+      ],
+      "verdict": "Wall Street earnings note 最佳实践的复刻；接 SEC API 后可达到 publishable 水平。",
+      "best_for": "Sell-side first-take note, buy-side 速读, IR 内部对照",
+      "total": 8.62,
+      "slug": "earnings-reviewer",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/03-earnings-reviewer.md",
+      "rank": 3
+    },
+    {
+      "name": "Statement Auditor",
+      "category": "operations",
+      "icon": "🔍",
+      "completeness": 8.5,
+      "professionalism": 9.0,
+      "accuracy": 8.5,
+      "usability": 8.0,
+      "speed_sec": 55,
+      "strengths": [
+        "Tie-out + footing + ratio sanity + 披露 + 异常 五段完整",
+        "茅台特殊比率（GM 91%、应收 0.5 天）的合理性判断有专业洞察",
+        "异常关注引导 — 现金留存、税务争议"
+      ],
+      "weaknesses": [
+        "未做 PCAOB / ISA 标准的全程 risk-of-misstatement 评估",
+        "Disclosure cross-reference 仅做了高层 sanity"
+      ],
+      "verdict": "上市公司年报阅读 + 内审第一遍扫描的高效辅助。",
+      "best_for": "年报快速 review, 内审年度规划, 投后 portfolio 审计",
+      "total": 8.53,
+      "slug": "statement-auditor",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/09-statement-auditor.md",
+      "rank": 4
+    },
+    {
+      "name": "Meeting Preparer",
+      "category": "research",
+      "icon": "📋",
+      "completeness": 9.0,
+      "professionalism": 8.0,
+      "accuracy": 7.5,
+      "usability": 9.5,
+      "speed_sec": 28,
+      "strengths": [
+        "Pre-read pack + Q&A list + risk watch 三段都给齐",
+        "10 个待问问题命中 sell-side analyst 关心的点",
+        "时效性 catalyst（GTC China 等）有意识纳入"
+      ],
+      "weaknesses": [
+        "Consensus 数字基于训练数据，未实时拉 FactSet/Visible Alpha",
+        "未做 sell-side note 摘要 aggregation"
+      ],
+      "verdict": "买方分析师会前准备效率工具的标杆产物。",
+      "best_for": "Buy-side meeting prep, conference 1x1 准备, expert call prep",
+      "total": 8.47,
+      "slug": "meeting-preparer",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/02-meeting-preparer.md",
+      "rank": 5
+    },
+    {
+      "name": "Month-End Closer",
+      "category": "operations",
+      "icon": "📅",
+      "completeness": 8.5,
+      "professionalism": 8.5,
+      "accuracy": 8.0,
+      "usability": 9.0,
+      "speed_sec": 40,
+      "strengths": [
+        "7 天 close calendar 到 day-by-day owner",
+        "5 笔典型 JE 模板 + flux analysis",
+        "待 CFO 确认事项 — 主动揪头发"
+      ],
+      "weaknesses": [
+        "Multi-entity 合并、IFRS-GAAP bridge 未覆盖",
+        "中文/英文双语披露口径未支持"
+      ],
+      "verdict": "中型 SaaS / 软件公司 controller 月末工作流自动化模板可直接套。",
+      "best_for": "SaaS 月结, 私募 portfolio 公司月报, 跨境集团 sub-ledger 对账",
+      "total": 8.47,
+      "slug": "month-end-closer",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/08-month-end-closer.md",
+      "rank": 6
+    },
+    {
+      "name": "KYC Screener",
+      "category": "operations",
+      "icon": "🛡️",
+      "completeness": 9.0,
+      "professionalism": 9.0,
+      "accuracy": 8.0,
+      "usability": 7.5,
+      "speed_sec": 60,
+      "strengths": [
+        "Identity / Sanctions / PEP / Adverse Media / Product 五维度全",
+        "False positive 处理 + PEP-adjacent 衰减期判断显示专业",
+        "EDD 触发 + 季度 review + STRO 协同建议落地具体"
+      ],
+      "weaknesses": [
+        "需接 World-Check / Dow Jones / Refinitiv 才能产出真实 hit",
+        "本机 skill 套件未单独暴露 KYC，需 finance-agents plugin"
+      ],
+      "verdict": "合规岗位 onboarding 评估的 + EDD 触发逻辑的强力辅助。",
+      "best_for": "对公开户 KYC, periodic review, 高风险客户 EDD 文档化",
+      "total": 8.45,
+      "slug": "kyc-screener",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/10-kyc-screener.md",
+      "rank": 7
+    },
+    {
+      "name": "Market Researcher",
+      "category": "research",
+      "icon": "🔍",
+      "completeness": 9.0,
+      "professionalism": 8.5,
+      "accuracy": 7.0,
+      "usability": 9.0,
+      "speed_sec": 50,
+      "strengths": [
+        "TAM + 竞争格局 + 价值链 + 投资观点 — sector note 完整",
+        "9 家厂商月销表 + YoY，颗粒度细",
+        "技术 inflection（800V、智驾、电池新化学）梳理清晰"
+      ],
+      "weaknesses": [
+        "月销数字偏估计，未对接 Marklines / 乘联会数据",
+        "海外（欧洲反补贴、北美关税）展开不够"
+      ],
+      "verdict": "中国汽车 sector primer 高质量产物，分析师 Day 1 速览理想素材。",
+      "best_for": "Sector initiation, industry primer, IC strategy 讨论",
+      "total": 8.38,
+      "slug": "market-researcher",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/05-market-researcher.md",
+      "rank": 8
+    },
+    {
+      "name": "Pitch Builder",
+      "category": "research",
+      "icon": "📊",
+      "completeness": 8.0,
+      "professionalism": 8.5,
+      "accuracy": 7.0,
+      "usability": 9.0,
+      "speed_sec": 35,
+      "strengths": [
+        "Strip profile + teaser + outline 三件套结构完整",
+        "财务数字基于真实年报口径，可追溯",
+        "投行 sell-side teaser 体例规范，匿名化恰当"
+      ],
+      "weaknesses": [
+        "Markdown 而非 .pptx，需手工转 deck",
+        "TAM 数字未引用一手报告",
+        "竞争格局描述偏概括"
+      ],
+      "verdict": "投行 pitch 工作流第一交付物的高质量起点；连接 Box/SharePoint 模板后可直出 deck。",
+      "best_for": "Sell-side advisory pitchbook 第一稿、内部 GAS、IC 预审材料",
+      "total": 8.07,
+      "slug": "pitch-builder",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/01-pitch-builder.md",
+      "rank": 9
+    },
+    {
+      "name": "Model Builder",
+      "category": "research",
+      "icon": "🧮",
+      "completeness": 8.5,
+      "professionalism": 8.0,
+      "accuracy": 8.0,
+      "usability": 7.0,
+      "speed_sec": 65,
+      "strengths": [
+        "5 年历史 + 4 年预测三表 + DCF 一气呵成",
+        "茅台特殊科目（基酒库存、预收）有意识处理",
+        "WACC / TV / 每股价值的链路完整"
+      ],
+      "weaknesses": [
+        "输出是 markdown 表，不是活公式 .xlsx",
+        "敏感性表缺失",
+        "Working capital 模型简化",
+        "Real-data anchor 已加，深度数据集成（earnings transcript、年报 XBRL）仍需进一步对接"
+      ],
+      "verdict": "模型骨架到位，但 deliverable 形态需升级到 Excel 才算闭环。",
+      "best_for": "初稿三表骨架, equity research initiation 模型, 私募尽调财务底稿",
+      "total": 7.95,
+      "slug": "model-builder",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/04-model-builder.md",
+      "rank": 10
+    }
+  ]
+}
