@@ -13,6 +13,7 @@ export function Header() {
           <Link href="/compare">对比</Link>
           <Link href="/case">案例</Link>
           <Link href="/roi">ROI</Link>
+          <Link href="/duel">Duel</Link>
           <Link href="/vs">VS</Link>
           <Link href="/artifacts" className="hide-on-mobile">产出</Link>
           <Link href="/faq" className="hide-on-mobile">FAQ</Link>

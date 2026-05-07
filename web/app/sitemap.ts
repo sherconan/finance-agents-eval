@@ -5,7 +5,7 @@ const BASE = "https://finance-agents-eval.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date().toISOString();
-  const staticRoutes = ["/", "/compare", "/case", "/roi", "/vs", "/changelog", "/downloads", "/methodology", "/artifacts", "/faq"].map((p) => ({
+  const staticRoutes = ["/", "/compare", "/case", "/roi", "/vs", "/duel", "/changelog", "/downloads", "/methodology", "/artifacts", "/faq"].map((p) => ({
     url: BASE + p,
     lastModified: now,
     changeFrequency: "weekly" as const,
