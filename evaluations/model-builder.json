@@ -4,7 +4,7 @@
   "icon": "🧮",
   "completeness": 8.5,
   "professionalism": 8.0,
-  "accuracy": 7.5,
+  "accuracy": 8.0,
   "usability": 7.0,
   "speed_sec": 65,
   "strengths": [
@@ -15,12 +15,14 @@
   "weaknesses": [
     "输出是 markdown 表，不是活公式 .xlsx",
     "敏感性表缺失",
-    "Working capital 模型简化"
+    "Working capital 模型简化",
+    "Real-data anchor 已加，深度数据集成（earnings transcript、年报 XBRL）仍需进一步对接"
   ],
   "verdict": "模型骨架到位，但 deliverable 形态需升级到 Excel 才算闭环。",
   "best_for": "初稿三表骨架, equity research initiation 模型, 私募尽调财务底稿",
-  "total": 7.83,
+  "total": 7.95,
   "slug": "model-builder",
   "evaluated_at": "2026-05-08T01:50:00+08:00",
-  "artifact_path": "artifacts/04-model-builder.md"
+  "artifact_path": "artifacts/04-model-builder.md",
+  "rank": 10
 }

@@ -21,5 +21,6 @@
   "total": 8.68,
   "slug": "gl-reconciler",
   "evaluated_at": "2026-05-08T01:50:00+08:00",
-  "artifact_path": "artifacts/07-gl-reconciler.md"
+  "artifact_path": "artifacts/07-gl-reconciler.md",
+  "rank": 2
 }

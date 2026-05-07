@@ -1,0 +1,33 @@
+{
+  "as_of": "2026-05-07 close",
+  "fetched_at": "2026-05-08T02:23:03+08:00",
+  "sources": {
+    "nvda": "Yahoo Finance v8 chart API",
+    "600519": "Tencent qt.gtimg.cn"
+  },
+  "nvda": {
+    "ticker": "NVDA",
+    "exchange": "NASDAQ",
+    "regular_market_price_usd": 213.035,
+    "fifty_two_week_low": 115.21,
+    "fifty_two_week_high": 216.83,
+    "regular_market_volume": 124746772,
+    "last_5_closes": [198.45, 198.48, 196.50, 207.83, 213.04]
+  },
+  "kweichow_moutai": {
+    "ticker": "600519.SH",
+    "exchange": "Shanghai",
+    "name": "贵州茅台",
+    "close_rmb": 1371.05,
+    "open_rmb": 1375.00,
+    "prev_close_rmb": 1375.00,
+    "high_rmb": 1388.00,
+    "low_rmb": 1370.01,
+    "change_rmb": -3.95,
+    "change_pct": -0.29,
+    "volume_lots": 40461,
+    "turnover_rmb": 5573286315,
+    "shares_outstanding_total": 1252270215,
+    "market_cap_rmb": 1717165000000
+  }
+}

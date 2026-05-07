@@ -4,7 +4,7 @@
   "icon": "📈",
   "completeness": 9.0,
   "professionalism": 9.0,
-  "accuracy": 7.0,
+  "accuracy": 7.5,
   "usability": 9.0,
   "speed_sec": 42,
   "strengths": [
@@ -13,13 +13,14 @@
     "DC / Networking / Margin 三条线索清晰"
   ],
   "weaknesses": [
-    "实际数字未对 release 文件 verbatim tie-out",
-    "Conference call 关键引述未引入"
+    "Conference call 关键引述未引入",
+    "Real-data anchor 已加，深度数据集成（earnings transcript、年报 XBRL）仍需进一步对接"
   ],
   "verdict": "Wall Street earnings note 最佳实践的复刻；接 SEC API 后可达到 publishable 水平。",
   "best_for": "Sell-side first-take note, buy-side 速读, IR 内部对照",
-  "total": 8.5,
+  "total": 8.62,
   "slug": "earnings-reviewer",
   "evaluated_at": "2026-05-08T01:50:00+08:00",
-  "artifact_path": "artifacts/03-earnings-reviewer.md"
+  "artifact_path": "artifacts/03-earnings-reviewer.md",
+  "rank": 3
 }

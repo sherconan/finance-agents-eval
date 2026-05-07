@@ -20,5 +20,6 @@
   "total": 8.9,
   "slug": "valuation-reviewer",
   "evaluated_at": "2026-05-08T01:50:00+08:00",
-  "artifact_path": "artifacts/06-valuation-reviewer.md"
+  "artifact_path": "artifacts/06-valuation-reviewer.md",
+  "rank": 1
 }

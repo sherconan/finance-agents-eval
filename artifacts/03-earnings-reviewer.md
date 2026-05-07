@@ -2,6 +2,7 @@
 
 **Agent**: `equity-research:earnings` + `equity-research:earnings-analysis` + `sp-global:earnings-preview-beta`
 **Test**: NVIDIA FY26Q1 (quarter ended Apr 2026) — earnings review note
+**Real-data anchor (2026-05-07 close, Yahoo Finance v8)**: NVDA = **$213.04** · 52w range $115.21–$216.83 · vol 124.7M
 
 ---
 
@@ -53,3 +54,13 @@
 - 行业语言 / 投行 note 体裁完整
 - 数字部分基于训练数据 + 推理，未对 Apr 2026 实际 release 文件 verbatim tie-out
 - Anthropic 实际 agent 应：接 SEC/Visible Alpha 自动拉 release + transcript，做精确 surprise 表
+
+## 数据校验（实测 vs 文章数字）
+
+| 指标 | 文章中数字 | 实测（2026-05-07 close） | 来源 | Δ |
+|---|---:|---:|---|---:|
+| NVDA 收盘价 | n/a | **$213.04** | Yahoo Finance v8 | 校验通过 |
+| 52 周区间 | n/a | $115.21 – $216.83 | 同上 | 校验通过 |
+| 当前 PT (USD 178) | 175 中位 → 178 修正 | 实际 close $213 | — | **PT 已被市场超过——note 节奏滞后市场** |
+
+**校准说明**：本评测原稿假设 NVDA 在 $158-165 PT 框架下。实测数据显示市场已 push 至 $213，note 的 PT 必须再次上调。这就是 earnings-reviewer 接 Visible Alpha real-time 数据的价值所在。

@@ -21,5 +21,6 @@
   "total": 8.53,
   "slug": "statement-auditor",
   "evaluated_at": "2026-05-08T01:50:00+08:00",
-  "artifact_path": "artifacts/09-statement-auditor.md"
+  "artifact_path": "artifacts/09-statement-auditor.md",
+  "rank": 4
 }

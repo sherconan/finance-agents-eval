@@ -2,6 +2,7 @@
 
 **Agent**: `financial-analysis:3-statement-model` + `dcf-model` + `lbo-model`
 **Test**: 贵州茅台 (600519.SH) — 3-statement model + DCF skeleton
+**Real-data anchor (2026-05-07 close, Tencent qt.gtimg.cn)**: **¥1,371.05** · 总股本 1,252,270,215 股 · **市值 ¥1.72 万亿** · 当日成交 5.57 bn
 
 ---
 
@@ -64,3 +65,13 @@
 1. 茅台预收 / 经销商压库的 working capital 模型简化处理
 2. WACC 取 8.5% 是经验值，未做 CAPM 完整推导
 3. Terminal growth 3% 反映永续增长上限，对中国白酒赛道可能仍偏激进
+
+## DCF Implied vs Market 校验（2026-05-07）
+
+| | DCF 模型 | 实测市场 | 差异 |
+|---|---:|---:|---:|
+| Per-share | RMB **1,632** | RMB **1,371.05** | DCF 偏高 +19% |
+| Equity value | ~RMB 2,050 bn | ~RMB 1,717 bn | DCF 偏高 +19% |
+| Implied 解读 | 市场对永续增长 g=3% 假设保守，给折价 | — | — |
+
+**结论**：DCF 模型隐含 ~19% 上行空间，但需做敏感性表检验在不同 g/WACC 假设下的稳健性。也可能是模型过度乐观——这就是 valuation-reviewer 该接手做 audit 的入口。
