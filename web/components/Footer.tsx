@@ -5,6 +5,7 @@ export function Footer() {
         <div>独立第三方评测 · 与 Anthropic 无关 · 仅供研究使用</div>
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           <a href="/changelog">Changelog</a>
+          <a href="/stats">Stats</a>
           <a href="/downloads">下载</a>
           <span>评测窗口 2026-05-08 01:30 → 08:30</span>
         </div>

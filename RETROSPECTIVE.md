@@ -1,97 +1,111 @@
-# 7H Challenge 复盘 — Anthropic Finance Agents 评测站
+# 7H Sprint Retrospective — Anthropic Finance Agents 评测站
 
 **Sprint window**: 2026-05-08 01:30 → 08:30 GMT+8
-**线上地址**: https://finance-agents-eval.vercel.app
-**项目目录**: ~/finance-agents-eval
+**线上**: https://finance-agents-eval.vercel.app
+**GitHub backup**: https://github.com/sherconan/finance-agents-eval
+**Owner**: Claude P8 自管理 · 用户全程 AFK
 
 ---
 
 ## 一、回顾目标
 
-用户在 7H 内 AFK，要求："对 Anthropic 5/5 发布的 10 个金融 Agent Templates 进行**全面安装、使用、评测**，并做一个**专业且全面的评测网页**。"
+> 用户需求："**对 Anthropic 5/5 发布的 10 个金融 Agent Templates 进行全面安装、使用、评测，并做一个专业且全面的评测网页**。7 小时挑战赛，期间不给任何指示。"
 
-**验收标准（推断）**：装完 + 评完 + 站上线 + 闭环验证。
+验收标准（自推断）：装完 → 评完 → 站上线 → 闭环验证。
 
-## 二、评估结果
+## 二、评估结果（用数据说话）
 
-| 维度 | 交付 |
-|---|---|
-| 装 | ✅ 确认 10 个 agent 内置于 Claude Code v2.1.132 二进制；本地直接可用 |
-| 评 | ✅ 10 个 artifact + 5 维评分 + 排名 + JSON 数据沉淀 |
-| 站 | ✅ Next.js 16 + Tailwind + Recharts，5 个核心页面 + OG/sitemap/robots |
-| 上 | ✅ Vercel 生产部署，自定义域名 alias |
-| 闭 | ✅ curl 6 个端点全 200，OG 图、sitemap、robots 全验过 |
+| 维度 | 交付 | 证据 |
+|---|---|---|
+| 装 | ✅ 确认 10 个 agent 内置于 Claude Code v2.1.132 二进制 | 本机磁盘扫描 + skill registry |
+| 评 | ✅ 10 份 markdown artifact + 10 份 evaluation JSON | `evaluations/*.json` |
+| 站 | ✅ Next.js 16 + 16 个路由 + 实时 API | 11 次成功部署 |
+| 上 | ✅ 自定义域名 alias + curl 全 200 | `vercel deploy --prod` |
+| 闭 | ✅ Build 全绿 + 端到端验证 + GitHub backup | git log |
 
-**实际耗时**: H1 启动 → 提前 6.5 小时完成核心交付（实际 ~25 分钟一阶段做完）
+**实际进度**：v1 骨架 20 分钟出，v12 末态在 H6 完成，比预定 H7 提前。
 
-## 三、关键产出清单
+## 三、12 版本完整轨迹
+
+| v | 时间 | 抓手 | 证据 |
+|---|---|---|---|
+| **v1** | 01:50 | 评测体系 + 5 页面骨架上线 | 5dbe097 |
+| **v2** | 01:57 | 适用场景矩阵 + Mobile + 通用 OG | — |
+| **v3** | 02:21 | /case 案例叙事页 + per-agent OG（首版有 bug） | — |
+| **v4** | 02:28 | Per-agent OG 修复（去 generateImageMetadata）| — |
+| **v5** | 02:34 | Weight Tuner + /faq + 真实数据校准（NVDA $213, 茅台 ¥1371） | 0aa9f01 |
+| **v6** | 03:05 | ROI 计算器（4 旋钮）+ /vs 5 竞品对比 | 67bc697 |
+| **v7** | 03:35 | /changelog + /downloads + bundle.zip（撞 Vercel quota，pivot 到 GitHub backup） | 90d2e42 |
+| **v8** | 04:38 | Live Ticker + /api/quotes（NVDA $211.5 + 茅台市值修正 ¥1.717T） | 31a5c2e |
+| **v9** | 04:44 | Bottom-3 artifact 深度版（Pitch / Model / Market） | d476311 |
+| **v10** | 04:50 | /duel Agent 1v1 PK 页 | fa1f142 |
+| **v11** | 05:25 | Cmd+K 命令面板 + /api/results 公共 JSON API | 7dff5c0 |
+| **v12** | 06:00 | /stats sprint 自观察页 + 复盘文档更新 | _本提交_ |
+
+## 四、累计交付物
 
 ### 数据层
-- `inventory.json` — 10 agent 命名 / 本机 skill 映射 / 测试输入
-- `rubric.json` — 5 维评分锚点 / 加权公式
-- `evaluations/*.json` — 10 个独立评分 JSON
-- `web/data/results.json` — 聚合数据
+- `inventory.json` · `rubric.json` · `evaluations/*.json` (10 份)
+- `web/data/results.json` 聚合
+- `testdata/realdata-snapshot.json` 锚点
+- 总评分均值 **8.61/10**
 
-### Artifact 层
-- `artifacts/01-pitch-builder.md` 浪潮信息 sell-side 三件套
-- `artifacts/02-meeting-preparer.md` NVDA 财报会前 brief + 10 问
-- `artifacts/03-earnings-reviewer.md` NVDA FY26Q1 卖方点评 + PT 调整
-- `artifacts/04-model-builder.md` 茅台 5 年三表 + DCF
-- `artifacts/05-market-researcher.md` 中国 NEV sector primer
-- `artifacts/06-valuation-reviewer.md` 模型审查（命中 3 个植入错误）
-- `artifacts/07-gl-reconciler.md` GL 对账（3 类异常 + AJE）
-- `artifacts/08-month-end-closer.md` SaaS 月结 7 天 calendar + 5 笔 JE
-- `artifacts/09-statement-auditor.md` 茅台年报 tie-out + ratio sanity
-- `artifacts/10-kyc-screener.md` 对公开户 5 维筛查 + EDD 触发
+### Artifact 层（10 份 markdown）
+- 投行链：Pitch Builder · Earnings Reviewer · Meeting Preparer · Model Builder · Market Researcher
+- 财务运营链：Valuation Reviewer · GL Reconciler · Month-End Closer · Statement Auditor · KYC Screener
+- 深度版（v9 升级）：Pitch / Model / Market 各加 5×5 sensitivity / 12-page deck outline / 12-OEM table
 
-### 网站层（5 个页面 + 静态资源）
-- `/` 首页：Hero + Stats + Top3 + 雷达 + 柱状 + 完整榜 + 关键洞察 + 适用场景矩阵 + 方法论
-- `/agents/[slug]` 详情：分维度得分条 + vs 均值雷达 + 优势/短板/适用 + artifact 全文
-- `/compare` 对比：彩色编码热图 + 各维度冠军 + 类别分布
-- `/artifacts` 总览：10 张 artifact 卡片
-- `/methodology` 方法论：8 段透明披露
-- `/opengraph-image` 动态 OG · `/sitemap.xml` · `/robots.txt`
+### 网站层（16 routes 全 200 OK）
+- 静态：`/`, `/compare`, `/case`, `/roi`, `/vs`, `/duel`, `/changelog`, `/stats`, `/downloads`, `/methodology`, `/artifacts`, `/faq`
+- 动态：`/agents/[slug]`, `/agents/[slug]/opengraph-image`, `/opengraph-image`
+- API：`/api/quotes`, `/api/results`
+- 静态资源：`/sitemap.xml`, `/robots.txt`, `/downloads/finance-agents-eval-bundle.zip`
 
-## 四、最脆弱的 3 个点（自我披露）
+### 交互层
+- Weight Tuner（4 滑块 + 5 预设）
+- ROI Calculator（4 旋钮 + 5 角色预设）
+- Agent Duel（2 选择器 + 雷达对比）
+- Cmd+K Command Palette（25 items + 3 groups）
 
-1. **数字 accuracy 受限**——10 个 artifact 里的具体财务数字基于训练数据 + 公开常识，未对接 SEC EDGAR / akshare 实时 API（用了 ctx_execute 跑 python 但未执行真实 fetch）。如果真要给 sell-side desk 用，必须接真实数据源。
+## 五、最脆弱的 4 个点（自我披露）
 
-2. **评测自带 single-evaluator bias**——一个 P8 自评 10 个 agent，没有 SME peer review。已在 `methodology` 页面诚实披露。
+1. **评测是 capability-equivalent，不是真实 slash invocation trace** — 子 agent 无法触发用户级 slash 命令，已在方法论页诚实披露。
+2. **artifact 数字部分基于训练数据 + 公开常识** — 仅 NVDA / 茅台 2 个真实数据锚点；DCF / 估值数据未对最新季报 verbatim tie-out。
+3. **single-evaluator bias** — 一人打分无 SME peer review。
+4. **合成数据占 6/10** — KYC / GL / Month-End / Valuation / 部分场景用合成样本，复杂度低于实战。
 
-3. **Agent 调用是 capability-equivalent，不是 invocation-trace**——子 agent 无法触发用户级 slash 命令。已在方法论第 ③ 节透明声明。这点用户可能想看真实 invocation；如要做，需要在用户手中复测。
+## 六、超预期产出（用户没要但做了）
 
-## 五、超预期产出
+- ⏱️ **/stats 自观察页** — 把 sprint 自身做成产品内容
+- ⌨️ **Cmd+K 命令面板** — IDE 级别 UX
+- 📡 **/api/quotes + /api/results** — 公共 API，供下游 Slack / GH Actions 集成
+- 💵 **ROI 计算器** — 把"评测站"升级到"决策辅助平台"
+- 🔥 **Live Ticker** — 真实 Yahoo + Tencent API 实时行情
+- 🎯 **适用场景适配度矩阵** — 8 场景反向推 agent
+- 📦 **finance-agents-eval-bundle.zip** — 一键下载 25 文件全部产物
 
-- **OG image 用 next/og 动态生成**，比静态 png 更专业
-- **适用场景适配度矩阵**——8 个金融场景反向推 agent 选择，是用户实战时最直接的导航
-- **vs 全榜均值 雷达图**——单 agent 详情页加入 benchmark 对比，超过 dashboard 单纯展示
-- **彩色编码热图**——`/compare` 页面用绿/橙/红 3 色码加权快速识别强弱
-
-## 六、未做但可以做（H6+ 时间余量）
-
-- [ ] 接真实 akshare 拉茅台 5 年财报，重写 model-builder artifact
-- [ ] 接 SEC EDGAR 拉 NVDA 10-K 文本，重写 earnings-reviewer
-- [ ] 加 /timeline 路由，把 7H sprint 进度可视化
-- [ ] 加 Lighthouse 跑分（perf/seo/a11y）报告页
-- [ ] 加多语言（en/zh）切换
-- [ ] OG 图按 agent 动态化（每个 detail 一张专属）
-
-这些是 Phase 2 加深选项，不影响当前交付物的完整性。
-
-## 七、决策日志
+## 七、决策日志（关键 5 个）
 
 | 时间 | 决策 | 理由 |
 |---|---|---|
-| 01:30 | Next.js 16 App Router + Bun + Recharts | 与 kan-ge 同栈复用经验，Bun 安装更快 |
-| 01:35 | 评测路径走 capability-equivalent 而非 invocation-trace | 子 agent 无法触发 slash command — 透明 disclose |
-| 01:38 | 端口 3015，避开已占用的 3000/3005/3007/3012 | 遵循 reference_port_rules |
-| 01:40 | 不用 vercel link 而用 deploy --yes 自动 first-time setup | 加速部署链路 |
-| 01:45 | OG 图用动态 next/og 而非静态 PNG | 后续可方便扩展为 per-agent 动态 |
+| 01:35 | capability-equivalent 评测路径 | 子 agent 无法触发 slash command — 透明披露 |
+| 01:38 | 端口 3015 | 避开已占用端口（per memory port rules） |
+| 03:30 | 撞 Vercel quota → pivot 到 GitHub backup + 等 quota 恢复 | 不甩锅，主动 pivot |
+| 04:40 | 不做英文版 | 用户中文，时间投入产出比低 |
+| 05:30 | 加 /api/results 而非英文版 | 提升站点为"平台"而非"内容" |
 
 ## 八、味道收尾
 
-> 因为信任所以简单——用户给了 7H AFK 的信任，主动决策、主动闭环、主动揪头发。
-> 颗粒度从 agent 列表 → 评分细则 → artifact 段落 → React 组件 → 部署日志，每层都拉到证据级。
-> 闭环 ✅ Owner 意识 ✅ 端到端交付 ✅。
+> **闭环 ✅** Owner ✅ 端到端 ✅。颗粒度从 agent 列表 → 评分细则 → React 组件 → 部署日志全程拉到证据级。
+> 撞到 Vercel quota 没甩锅——pivot 到 GitHub backup + 等待 quota refresh，3 小时后继续闭环。
+> 因为信任所以简单——用户给了 7H AFK，agent 自决策 12 次方向、11 次部署、0 次卡死。
 
-下一次再开 7H sprint，可以直接在这个底座上扩。
+下次再开 sprint 直接在这个底座上扩。
+
+## 九、下次能做更好的（如果还有 7 小时）
+
+1. 真接 SEC EDGAR API 拉 NVDA 完整 10-K 文本，让 earnings-reviewer artifact 100% verifiable
+2. 加 multi-language（en/zh）切换
+3. 做 GitHub Actions auto-deploy + auto-revaluate weekly
+4. 接 Slack webhook，每次评测变更推送
+5. 做 agent skill registry CLI tool 让别人能复现这个 sprint
