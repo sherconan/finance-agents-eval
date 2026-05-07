@@ -5,6 +5,7 @@ import { RadarChart } from "@/components/RadarChart";
 import { HBarChart } from "@/components/BarChart";
 import { UseCaseMatrix } from "@/components/UseCaseMatrix";
 import { WeightTuner } from "@/components/WeightTuner";
+import { LiveTicker } from "@/components/LiveTicker";
 
 const COLORS = ["#f59e0b", "#3b82f6", "#10b981", "#ef4444", "#8b5cf6"];
 
@@ -47,6 +48,11 @@ export default function Home() {
           <Link href="/case" className="btn btn-outline">深度案例</Link>
           <Link href="/vs" className="btn btn-outline">vs 同行</Link>
         </div>
+      </section>
+
+      {/* Live market ticker */}
+      <section style={{ marginBottom: "2rem" }}>
+        <LiveTicker />
       </section>
 
       {/* Stat strip */}

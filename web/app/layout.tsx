@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://finance-agents-eval.vercel.app"),
   title: "Anthropic Finance Agents 评测站",
   description:
     "Anthropic 2026-05-05 发布的 10 个金融 Agent Templates 独立第三方评测——5 维评分 + 真实 artifact + 横向对比。",
