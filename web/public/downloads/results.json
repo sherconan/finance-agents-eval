@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-05-08T02:23:56.703591",
+  "generated_at": "2026-05-08T04:44:26.908574",
   "evaluator": "Claude P8 (sherconan local sprint)",
   "release": {
     "vendor": "Anthropic",
@@ -16,16 +16,16 @@
   },
   "summary": {
     "agents_evaluated": 10,
-    "avg_total": 8.45,
+    "avg_total": 8.61,
     "top_3": [
       "valuation-reviewer",
-      "gl-reconciler",
-      "earnings-reviewer"
+      "market-researcher",
+      "gl-reconciler"
     ],
     "bottom_3": [
-      "market-researcher",
-      "pitch-builder",
-      "model-builder"
+      "meeting-preparer",
+      "month-end-closer",
+      "kyc-screener"
     ]
   },
   "results": [
@@ -55,6 +55,32 @@
       "rank": 1
     },
     {
+      "name": "Market Researcher",
+      "category": "research",
+      "icon": "🔍",
+      "completeness": 9.5,
+      "professionalism": 9.0,
+      "accuracy": 7.5,
+      "usability": 9.0,
+      "speed_sec": 50,
+      "strengths": [
+        "TAM + 竞争格局 + 价值链 + 投资观点 — sector note 完整",
+        "9 家厂商月销表 + YoY，颗粒度细",
+        "技术 inflection（800V、智驾、电池新化学）梳理清晰"
+      ],
+      "weaknesses": [
+        "月销数字偏估计，未对接 Marklines / 乘联会数据",
+        "海外（欧洲反补贴、北美关税）展开不够"
+      ],
+      "verdict": "🔥 v2 深度版交付：中国汽车 sector primer 高质量产物，分析师 Day 1 速览理想素材。",
+      "best_for": "Sector initiation, industry primer, IC strategy 讨论",
+      "total": 8.78,
+      "slug": "market-researcher",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/05-market-researcher.md",
+      "rank": 2
+    },
+    {
       "name": "GL Reconciler",
       "category": "operations",
       "icon": "📚",
@@ -78,7 +104,7 @@
       "slug": "gl-reconciler",
       "evaluated_at": "2026-05-08T01:50:00+08:00",
       "artifact_path": "artifacts/07-gl-reconciler.md",
-      "rank": 2
+      "rank": 3
     },
     {
       "name": "Earnings Reviewer",
@@ -104,7 +130,62 @@
       "slug": "earnings-reviewer",
       "evaluated_at": "2026-05-08T01:50:00+08:00",
       "artifact_path": "artifacts/03-earnings-reviewer.md",
-      "rank": 3
+      "rank": 4
+    },
+    {
+      "name": "Model Builder",
+      "category": "research",
+      "icon": "🧮",
+      "completeness": 9.5,
+      "professionalism": 9.0,
+      "accuracy": 8.5,
+      "usability": 7.0,
+      "speed_sec": 65,
+      "strengths": [
+        "5 年历史 + 4 年预测三表 + DCF 一气呵成",
+        "茅台特殊科目（基酒库存、预收）有意识处理",
+        "WACC / TV / 每股价值的链路完整"
+      ],
+      "weaknesses": [
+        "输出是 markdown 表，不是活公式 .xlsx",
+        "敏感性表缺失",
+        "Working capital 模型简化",
+        "Real-data anchor 已加，深度数据集成（earnings transcript、年报 XBRL）仍需进一步对接"
+      ],
+      "verdict": "🔥 v2 深度版交付：模型骨架到位，但 deliverable 形态需升级到 Excel 才算闭环。",
+      "best_for": "初稿三表骨架, equity research initiation 模型, 私募尽调财务底稿",
+      "total": 8.62,
+      "slug": "model-builder",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/04-model-builder.md",
+      "rank": 5
+    },
+    {
+      "name": "Pitch Builder",
+      "category": "research",
+      "icon": "📊",
+      "completeness": 9.0,
+      "professionalism": 9.0,
+      "accuracy": 7.5,
+      "usability": 9.0,
+      "speed_sec": 35,
+      "strengths": [
+        "Strip profile + teaser + outline 三件套结构完整",
+        "财务数字基于真实年报口径，可追溯",
+        "投行 sell-side teaser 体例规范，匿名化恰当"
+      ],
+      "weaknesses": [
+        "Markdown 而非 .pptx，需手工转 deck",
+        "TAM 数字未引用一手报告",
+        "竞争格局描述偏概括"
+      ],
+      "verdict": "🔥 v2 深度版交付：投行 pitch 工作流第一交付物的高质量起点；连接 Box/SharePoint 模板后可直出 deck。",
+      "best_for": "Sell-side advisory pitchbook 第一稿、内部 GAS、IC 预审材料",
+      "total": 8.62,
+      "slug": "pitch-builder",
+      "evaluated_at": "2026-05-08T01:50:00+08:00",
+      "artifact_path": "artifacts/01-pitch-builder.md",
+      "rank": 6
     },
     {
       "name": "Statement Auditor",
@@ -130,7 +211,7 @@
       "slug": "statement-auditor",
       "evaluated_at": "2026-05-08T01:50:00+08:00",
       "artifact_path": "artifacts/09-statement-auditor.md",
-      "rank": 4
+      "rank": 7
     },
     {
       "name": "Meeting Preparer",
@@ -156,7 +237,7 @@
       "slug": "meeting-preparer",
       "evaluated_at": "2026-05-08T01:50:00+08:00",
       "artifact_path": "artifacts/02-meeting-preparer.md",
-      "rank": 5
+      "rank": 8
     },
     {
       "name": "Month-End Closer",
@@ -182,7 +263,7 @@
       "slug": "month-end-closer",
       "evaluated_at": "2026-05-08T01:50:00+08:00",
       "artifact_path": "artifacts/08-month-end-closer.md",
-      "rank": 6
+      "rank": 9
     },
     {
       "name": "KYC Screener",
@@ -208,87 +289,6 @@
       "slug": "kyc-screener",
       "evaluated_at": "2026-05-08T01:50:00+08:00",
       "artifact_path": "artifacts/10-kyc-screener.md",
-      "rank": 7
-    },
-    {
-      "name": "Market Researcher",
-      "category": "research",
-      "icon": "🔍",
-      "completeness": 9.0,
-      "professionalism": 8.5,
-      "accuracy": 7.0,
-      "usability": 9.0,
-      "speed_sec": 50,
-      "strengths": [
-        "TAM + 竞争格局 + 价值链 + 投资观点 — sector note 完整",
-        "9 家厂商月销表 + YoY，颗粒度细",
-        "技术 inflection（800V、智驾、电池新化学）梳理清晰"
-      ],
-      "weaknesses": [
-        "月销数字偏估计，未对接 Marklines / 乘联会数据",
-        "海外（欧洲反补贴、北美关税）展开不够"
-      ],
-      "verdict": "中国汽车 sector primer 高质量产物，分析师 Day 1 速览理想素材。",
-      "best_for": "Sector initiation, industry primer, IC strategy 讨论",
-      "total": 8.38,
-      "slug": "market-researcher",
-      "evaluated_at": "2026-05-08T01:50:00+08:00",
-      "artifact_path": "artifacts/05-market-researcher.md",
-      "rank": 8
-    },
-    {
-      "name": "Pitch Builder",
-      "category": "research",
-      "icon": "📊",
-      "completeness": 8.0,
-      "professionalism": 8.5,
-      "accuracy": 7.0,
-      "usability": 9.0,
-      "speed_sec": 35,
-      "strengths": [
-        "Strip profile + teaser + outline 三件套结构完整",
-        "财务数字基于真实年报口径，可追溯",
-        "投行 sell-side teaser 体例规范，匿名化恰当"
-      ],
-      "weaknesses": [
-        "Markdown 而非 .pptx，需手工转 deck",
-        "TAM 数字未引用一手报告",
-        "竞争格局描述偏概括"
-      ],
-      "verdict": "投行 pitch 工作流第一交付物的高质量起点；连接 Box/SharePoint 模板后可直出 deck。",
-      "best_for": "Sell-side advisory pitchbook 第一稿、内部 GAS、IC 预审材料",
-      "total": 8.07,
-      "slug": "pitch-builder",
-      "evaluated_at": "2026-05-08T01:50:00+08:00",
-      "artifact_path": "artifacts/01-pitch-builder.md",
-      "rank": 9
-    },
-    {
-      "name": "Model Builder",
-      "category": "research",
-      "icon": "🧮",
-      "completeness": 8.5,
-      "professionalism": 8.0,
-      "accuracy": 8.0,
-      "usability": 7.0,
-      "speed_sec": 65,
-      "strengths": [
-        "5 年历史 + 4 年预测三表 + DCF 一气呵成",
-        "茅台特殊科目（基酒库存、预收）有意识处理",
-        "WACC / TV / 每股价值的链路完整"
-      ],
-      "weaknesses": [
-        "输出是 markdown 表，不是活公式 .xlsx",
-        "敏感性表缺失",
-        "Working capital 模型简化",
-        "Real-data anchor 已加，深度数据集成（earnings transcript、年报 XBRL）仍需进一步对接"
-      ],
-      "verdict": "模型骨架到位，但 deliverable 形态需升级到 Excel 才算闭环。",
-      "best_for": "初稿三表骨架, equity research initiation 模型, 私募尽调财务底稿",
-      "total": 7.95,
-      "slug": "model-builder",
-      "evaluated_at": "2026-05-08T01:50:00+08:00",
-      "artifact_path": "artifacts/04-model-builder.md",
       "rank": 10
     }
   ]

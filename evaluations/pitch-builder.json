@@ -2,9 +2,9 @@
   "name": "Pitch Builder",
   "category": "research",
   "icon": "📊",
-  "completeness": 8.0,
-  "professionalism": 8.5,
-  "accuracy": 7.0,
+  "completeness": 9.0,
+  "professionalism": 9.0,
+  "accuracy": 7.5,
   "usability": 9.0,
   "speed_sec": 35,
   "strengths": [
@@ -17,11 +17,11 @@
     "TAM 数字未引用一手报告",
     "竞争格局描述偏概括"
   ],
-  "verdict": "投行 pitch 工作流第一交付物的高质量起点；连接 Box/SharePoint 模板后可直出 deck。",
+  "verdict": "🔥 v2 深度版交付：投行 pitch 工作流第一交付物的高质量起点；连接 Box/SharePoint 模板后可直出 deck。",
   "best_for": "Sell-side advisory pitchbook 第一稿、内部 GAS、IC 预审材料",
-  "total": 8.07,
+  "total": 8.62,
   "slug": "pitch-builder",
   "evaluated_at": "2026-05-08T01:50:00+08:00",
   "artifact_path": "artifacts/01-pitch-builder.md",
-  "rank": 9
+  "rank": 6
 }
