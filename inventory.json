@@ -1,0 +1,98 @@
+{
+  "source": "https://www.anthropic.com/news/finance-agents",
+  "release_date": "2026-05-05",
+  "evaluator": "Claude P8 (sherconan local)",
+  "eval_window": "2026-05-08 01:30 → 08:30 GMT+8",
+  "agents": [
+    {
+      "id": "pitch-builder",
+      "category": "research",
+      "name": "Pitch builder",
+      "description": "Builds investment banking pitch decks from company data + market context",
+      "local_skills": ["investment-banking:pitch-deck", "investment-banking:strip-profile", "investment-banking:datapack-builder"],
+      "test_input": "Build a sell-side teaser + pitch deck for a Chinese AI infra company (sample target: 浪潮信息 / 中科曙光)",
+      "expected_artifacts": ["pitch-deck.pptx", "teaser.pdf"]
+    },
+    {
+      "id": "meeting-preparer",
+      "category": "research",
+      "name": "Meeting preparer",
+      "description": "Pre-meeting briefing pack: company overview, recent events, talking points",
+      "local_skills": ["private-equity:dd-prep", "wealth-management:client-review", "equity-research:morning-note"],
+      "test_input": "Prepare an analyst meeting brief for NVDA pre-FY26Q1 earnings",
+      "expected_artifacts": ["meeting-brief.md"]
+    },
+    {
+      "id": "earnings-reviewer",
+      "category": "research",
+      "name": "Earnings reviewer",
+      "description": "Quarterly earnings analysis with beats/misses, guidance, segment commentary",
+      "local_skills": ["equity-research:earnings", "equity-research:earnings-analysis", "sp-global:earnings-preview-beta"],
+      "test_input": "Review NVDA latest quarter — flag surprises, guidance read-through, model implications",
+      "expected_artifacts": ["earnings-review.md"]
+    },
+    {
+      "id": "model-builder",
+      "category": "research",
+      "name": "Model builder",
+      "description": "Builds 3-statement / DCF / LBO models from company filings",
+      "local_skills": ["financial-analysis:3-statement-model", "financial-analysis:dcf-model", "financial-analysis:lbo-model"],
+      "test_input": "Build 3-statement model for 贵州茅台 (600519.SH) using last 5 years of annual reports",
+      "expected_artifacts": ["3-statement-model.xlsx"]
+    },
+    {
+      "id": "market-researcher",
+      "category": "research",
+      "name": "Market researcher",
+      "description": "Industry / sector deep-dive with TAM, players, drivers, risks",
+      "local_skills": ["equity-research:sector", "equity-research:initiating-coverage"],
+      "test_input": "Sector report on China NEV market 2026 — competitive landscape, BYD / Li Auto / NIO positioning",
+      "expected_artifacts": ["sector-report.md"]
+    },
+    {
+      "id": "valuation-reviewer",
+      "category": "operations",
+      "name": "Valuation reviewer",
+      "description": "Audit existing valuation models for methodology consistency, comp selection, sensitivity",
+      "local_skills": ["financial-analysis:comps-analysis", "financial-analysis:dcf", "financial-analysis:audit-xls"],
+      "test_input": "Review a synthetic DCF model with 3 planted methodology errors (terminal growth > WACC, mismatched FCF, cherry-picked comps)",
+      "expected_artifacts": ["valuation-review.md"]
+    },
+    {
+      "id": "gl-reconciler",
+      "category": "operations",
+      "name": "General ledger reconciler",
+      "description": "Reconciles GL accounts vs sub-ledgers, flags variance, suggests adjusting entries",
+      "local_skills": ["financial-analysis:audit-xls", "financial-analysis:debug-model"],
+      "test_input": "Reconcile a synthetic 3-month GL with planted exceptions (timing diff, missing JE, dup posting)",
+      "expected_artifacts": ["gl-reconciliation.xlsx"]
+    },
+    {
+      "id": "month-end-closer",
+      "category": "operations",
+      "name": "Month-end closer",
+      "description": "Drives the close cycle: accruals, reclasses, intercompany, FX",
+      "local_skills": ["financial-analysis:audit-xls", "financial-analysis:clean-data-xls"],
+      "test_input": "Close a synthetic April 2026 month-end for a single-entity SaaS company",
+      "expected_artifacts": ["close-checklist.md", "adjusting-entries.xlsx"]
+    },
+    {
+      "id": "statement-auditor",
+      "category": "operations",
+      "name": "Statement auditor",
+      "description": "Audits financial statements: tie-out, footing, ratio reasonableness, disclosure completeness",
+      "local_skills": ["financial-analysis:audit-xls", "financial-analysis:ib-check-deck"],
+      "test_input": "Audit 茅台 2024 annual report financial statements — tie-out, ratio sanity, disclosure",
+      "expected_artifacts": ["audit-report.md"]
+    },
+    {
+      "id": "kyc-screener",
+      "category": "operations",
+      "name": "KYC screener",
+      "description": "Screens client onboarding files: identity, beneficial ownership, sanctions, PEP, adverse media",
+      "local_skills": ["(no local mapping — needs finance-agents plugin)"],
+      "test_input": "Screen a synthetic onboarding pack: corporate, 3 UBOs, 1 PEP-adjacent",
+      "expected_artifacts": ["kyc-report.md"]
+    }
+  ]
+}

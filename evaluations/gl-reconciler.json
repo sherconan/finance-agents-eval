@@ -1,0 +1,25 @@
+{
+  "name": "GL Reconciler",
+  "category": "operations",
+  "icon": "📚",
+  "completeness": 9.0,
+  "professionalism": 8.5,
+  "accuracy": 9.0,
+  "usability": 8.0,
+  "speed_sec": 32,
+  "strengths": [
+    "三种异常类型（timing / policy / integration gap）全覆盖",
+    "调整分录 GL 借贷格式合规",
+    "试算平衡校验闭环"
+  ],
+  "weaknesses": [
+    "需用户先准备 GL + subledger 数据，未直接接 ERP",
+    "审计底稿格式（PBC list 等）未生成"
+  ],
+  "verdict": "Controller 对账工作的 80% 体力活外包，效率提升显著。",
+  "best_for": "月末对账, 季度预审计 PBC, 内审 GL 抽样",
+  "total": 8.68,
+  "slug": "gl-reconciler",
+  "evaluated_at": "2026-05-08T01:50:00+08:00",
+  "artifact_path": "artifacts/07-gl-reconciler.md"
+}

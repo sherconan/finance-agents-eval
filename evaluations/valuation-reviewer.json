@@ -1,0 +1,24 @@
+{
+  "name": "Valuation Reviewer",
+  "category": "operations",
+  "icon": "🔬",
+  "completeness": 9.0,
+  "professionalism": 9.0,
+  "accuracy": 9.0,
+  "usability": 8.5,
+  "speed_sec": 38,
+  "strengths": [
+    "三个植入错误全部命中（含致命的 g > WACC）",
+    "修正方案给出量化 impact（USD 142 → USD 38）",
+    "Comp set 替换建议具体可执行"
+  ],
+  "weaknesses": [
+    "未对所有 hard-coded cell 做 100% formula audit（仅 high-level review）"
+  ],
+  "verdict": "投决前模型自审 / 实习生第一稿模型回顾的 must-have agent。",
+  "best_for": "投委会前 model audit, 第二意见, peer review",
+  "total": 8.9,
+  "slug": "valuation-reviewer",
+  "evaluated_at": "2026-05-08T01:50:00+08:00",
+  "artifact_path": "artifacts/06-valuation-reviewer.md"
+}

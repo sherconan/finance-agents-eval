@@ -1,0 +1,25 @@
+{
+  "name": "Market Researcher",
+  "category": "research",
+  "icon": "🔍",
+  "completeness": 9.0,
+  "professionalism": 8.5,
+  "accuracy": 7.0,
+  "usability": 9.0,
+  "speed_sec": 50,
+  "strengths": [
+    "TAM + 竞争格局 + 价值链 + 投资观点 — sector note 完整",
+    "9 家厂商月销表 + YoY，颗粒度细",
+    "技术 inflection（800V、智驾、电池新化学）梳理清晰"
+  ],
+  "weaknesses": [
+    "月销数字偏估计，未对接 Marklines / 乘联会数据",
+    "海外（欧洲反补贴、北美关税）展开不够"
+  ],
+  "verdict": "中国汽车 sector primer 高质量产物，分析师 Day 1 速览理想素材。",
+  "best_for": "Sector initiation, industry primer, IC strategy 讨论",
+  "total": 8.38,
+  "slug": "market-researcher",
+  "evaluated_at": "2026-05-08T01:50:00+08:00",
+  "artifact_path": "artifacts/05-market-researcher.md"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "KYC Screener",
+  "category": "operations",
+  "icon": "🛡️",
+  "completeness": 9.0,
+  "professionalism": 9.0,
+  "accuracy": 8.0,
+  "usability": 7.5,
+  "speed_sec": 60,
+  "strengths": [
+    "Identity / Sanctions / PEP / Adverse Media / Product 五维度全",
+    "False positive 处理 + PEP-adjacent 衰减期判断显示专业",
+    "EDD 触发 + 季度 review + STRO 协同建议落地具体"
+  ],
+  "weaknesses": [
+    "需接 World-Check / Dow Jones / Refinitiv 才能产出真实 hit",
+    "本机 skill 套件未单独暴露 KYC，需 finance-agents plugin"
+  ],
+  "verdict": "合规岗位 onboarding 评估的 + EDD 触发逻辑的强力辅助。",
+  "best_for": "对公开户 KYC, periodic review, 高风险客户 EDD 文档化",
+  "total": 8.45,
+  "slug": "kyc-screener",
+  "evaluated_at": "2026-05-08T01:50:00+08:00",
+  "artifact_path": "artifacts/10-kyc-screener.md"
+}

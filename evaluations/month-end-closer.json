@@ -1,0 +1,25 @@
+{
+  "name": "Month-End Closer",
+  "category": "operations",
+  "icon": "📅",
+  "completeness": 8.5,
+  "professionalism": 8.5,
+  "accuracy": 8.0,
+  "usability": 9.0,
+  "speed_sec": 40,
+  "strengths": [
+    "7 天 close calendar 到 day-by-day owner",
+    "5 笔典型 JE 模板 + flux analysis",
+    "待 CFO 确认事项 — 主动揪头发"
+  ],
+  "weaknesses": [
+    "Multi-entity 合并、IFRS-GAAP bridge 未覆盖",
+    "中文/英文双语披露口径未支持"
+  ],
+  "verdict": "中型 SaaS / 软件公司 controller 月末工作流自动化模板可直接套。",
+  "best_for": "SaaS 月结, 私募 portfolio 公司月报, 跨境集团 sub-ledger 对账",
+  "total": 8.47,
+  "slug": "month-end-closer",
+  "evaluated_at": "2026-05-08T01:50:00+08:00",
+  "artifact_path": "artifacts/08-month-end-closer.md"
+}

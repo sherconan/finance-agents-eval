@@ -1,0 +1,25 @@
+{
+  "name": "Statement Auditor",
+  "category": "operations",
+  "icon": "🔍",
+  "completeness": 8.5,
+  "professionalism": 9.0,
+  "accuracy": 8.5,
+  "usability": 8.0,
+  "speed_sec": 55,
+  "strengths": [
+    "Tie-out + footing + ratio sanity + 披露 + 异常 五段完整",
+    "茅台特殊比率（GM 91%、应收 0.5 天）的合理性判断有专业洞察",
+    "异常关注引导 — 现金留存、税务争议"
+  ],
+  "weaknesses": [
+    "未做 PCAOB / ISA 标准的全程 risk-of-misstatement 评估",
+    "Disclosure cross-reference 仅做了高层 sanity"
+  ],
+  "verdict": "上市公司年报阅读 + 内审第一遍扫描的高效辅助。",
+  "best_for": "年报快速 review, 内审年度规划, 投后 portfolio 审计",
+  "total": 8.53,
+  "slug": "statement-auditor",
+  "evaluated_at": "2026-05-08T01:50:00+08:00",
+  "artifact_path": "artifacts/09-statement-auditor.md"
+}

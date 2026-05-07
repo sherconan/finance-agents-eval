@@ -1,0 +1,25 @@
+{
+  "name": "Meeting Preparer",
+  "category": "research",
+  "icon": "📋",
+  "completeness": 9.0,
+  "professionalism": 8.0,
+  "accuracy": 7.5,
+  "usability": 9.5,
+  "speed_sec": 28,
+  "strengths": [
+    "Pre-read pack + Q&A list + risk watch 三段都给齐",
+    "10 个待问问题命中 sell-side analyst 关心的点",
+    "时效性 catalyst（GTC China 等）有意识纳入"
+  ],
+  "weaknesses": [
+    "Consensus 数字基于训练数据，未实时拉 FactSet/Visible Alpha",
+    "未做 sell-side note 摘要 aggregation"
+  ],
+  "verdict": "买方分析师会前准备效率工具的标杆产物。",
+  "best_for": "Buy-side meeting prep, conference 1x1 准备, expert call prep",
+  "total": 8.47,
+  "slug": "meeting-preparer",
+  "evaluated_at": "2026-05-08T01:50:00+08:00",
+  "artifact_path": "artifacts/02-meeting-preparer.md"
+}

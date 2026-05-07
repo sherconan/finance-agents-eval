@@ -1,0 +1,25 @@
+{
+  "name": "Earnings Reviewer",
+  "category": "research",
+  "icon": "📈",
+  "completeness": 9.0,
+  "professionalism": 9.0,
+  "accuracy": 7.0,
+  "usability": 9.0,
+  "speed_sec": 42,
+  "strengths": [
+    "Surprise 表 + segment read + takeaway + model 调整 — 卖方 morning note 完整体例",
+    "PT bump + rating 给到具体数字",
+    "DC / Networking / Margin 三条线索清晰"
+  ],
+  "weaknesses": [
+    "实际数字未对 release 文件 verbatim tie-out",
+    "Conference call 关键引述未引入"
+  ],
+  "verdict": "Wall Street earnings note 最佳实践的复刻；接 SEC API 后可达到 publishable 水平。",
+  "best_for": "Sell-side first-take note, buy-side 速读, IR 内部对照",
+  "total": 8.5,
+  "slug": "earnings-reviewer",
+  "evaluated_at": "2026-05-08T01:50:00+08:00",
+  "artifact_path": "artifacts/03-earnings-reviewer.md"
+}

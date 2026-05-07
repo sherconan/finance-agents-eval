@@ -1,0 +1,26 @@
+{
+  "name": "Pitch Builder",
+  "category": "research",
+  "icon": "📊",
+  "completeness": 8.0,
+  "professionalism": 8.5,
+  "accuracy": 7.0,
+  "usability": 9.0,
+  "speed_sec": 35,
+  "strengths": [
+    "Strip profile + teaser + outline 三件套结构完整",
+    "财务数字基于真实年报口径，可追溯",
+    "投行 sell-side teaser 体例规范，匿名化恰当"
+  ],
+  "weaknesses": [
+    "Markdown 而非 .pptx，需手工转 deck",
+    "TAM 数字未引用一手报告",
+    "竞争格局描述偏概括"
+  ],
+  "verdict": "投行 pitch 工作流第一交付物的高质量起点；连接 Box/SharePoint 模板后可直出 deck。",
+  "best_for": "Sell-side advisory pitchbook 第一稿、内部 GAS、IC 预审材料",
+  "total": 8.07,
+  "slug": "pitch-builder",
+  "evaluated_at": "2026-05-08T01:50:00+08:00",
+  "artifact_path": "artifacts/01-pitch-builder.md"
+}
