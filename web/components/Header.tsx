@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { CommandPalette } from "@/components/CommandPalette";
+import { data } from "@/lib/data";
 
 export function Header() {
   return (
@@ -21,6 +23,7 @@ export function Header() {
           <Link href="https://www.anthropic.com/news/finance-agents" target="_blank" rel="noopener" className="hide-on-mobile">
             官方公告 ↗
           </Link>
+          <CommandPalette agents={data.results} />
         </nav>
       </div>
     </header>
