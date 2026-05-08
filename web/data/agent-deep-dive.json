@@ -6,13 +6,32 @@
       "what_it_does_1line": "看一份估值模型，找出错误、夸大、 cherry-pick，给出量化修正建议",
       "non_tech_explanation": "你交给它一个 Excel 估值模型（比如 DCF 或 LBO），它像有经验的 senior banker 一样审一遍：公式有没有漏洞、口径是不是一致、对照对象选得对不对、关键假设是否激进。最后告诉你：这个模型如果原样上 IC 投决，会高估多少 / 低估多少。",
       "technical_breakdown": {
-        "composes_skills": ["financial-analysis:audit-xls", "financial-analysis:comps-analysis", "financial-analysis:dcf"],
-        "subagents_used": ["formula tracer (扫描公式 + circular ref)", "comp screener (对照公司筛选)", "sanity rule book (硬编码 100+ 项审查规则)"],
-        "connectors_optional": ["FactSet (comps universe)", "Box / SharePoint (模板)"],
+        "composes_skills": [
+          "financial-analysis:audit-xls",
+          "financial-analysis:comps-analysis",
+          "financial-analysis:dcf"
+        ],
+        "subagents_used": [
+          "formula tracer (扫描公式 + circular ref)",
+          "comp screener (对照公司筛选)",
+          "sanity rule book (硬编码 100+ 项审查规则)"
+        ],
+        "connectors_optional": [
+          "FactSet (comps universe)",
+          "Box / SharePoint (模板)"
+        ],
         "compute_pattern": "读 .xlsx → 提取公式 graph → 应用规则 → 生成 markdown report"
       },
-      "inputs_required": ["DCF / LBO / 三表 模型 .xlsx", "（可选）对照公司列表", "（可选）行业 baseline 假设"],
-      "outputs_produced": ["发现清单（按严重度分类）", "量化 impact（每个 issue 对 implied price 的影响）", "修正建议 + 替换 comp set"],
+      "inputs_required": [
+        "DCF / LBO / 三表 模型 .xlsx",
+        "（可选）对照公司列表",
+        "（可选）行业 baseline 假设"
+      ],
+      "outputs_produced": [
+        "发现清单（按严重度分类）",
+        "量化 impact（每个 issue 对 implied price 的影响）",
+        "修正建议 + 替换 comp set"
+      ],
       "cases": [
         {
           "name": "Case 1 · ProjectFlux 合成 DCF（含 3 个植入错误）",
@@ -21,7 +40,9 @@
           "output": "🔴 g(11%) > WACC(9%) → TV 数学崩溃 / 🟡 D&A 前 2 年含租赁后 3 年仅 PP&E 不一致 / 🟡 comp 全是高增长 security，不该套到中等增长 vertical SaaS",
           "result": "Implied price USD 142 → USD 38（−73%），足以否决投决",
           "score": 9.2,
-          "took": "38s"
+          "took": "38s",
+          "status": "executed",
+          "artifact": "/artifacts/06-valuation-reviewer.md"
         },
         {
           "name": "Case 2 · 茅台 DCF 模型审查",
@@ -30,7 +51,9 @@
           "output": "✅ 数学自洽，TV 公式正确 / ⚠️ working capital 简化处理（未季节性化经销商压库）/ ⚠️ WACC 取经验值 8.5%，未走 CAPM 完整 β（茅台 β 实际可能更低 0.6-0.7）",
           "result": "Implied price RMB 1858 vs market 1371 = +35.5% 上行；DCF 中位偏激进，建议补做 β 双因子分析",
           "score": 8.5,
-          "took": "45s"
+          "took": "45s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/valuation-reviewer-case2.md"
         },
         {
           "name": "Case 3 · 失败 case · 全空 .xlsx",
@@ -39,7 +62,9 @@
           "output": "💢 报错 'no formulas found in workbook'，请求用户提供有数据的版本",
           "result": "Failsafe 正确触发，未幻觉编造审查结论",
           "score": 8.0,
-          "took": "5s"
+          "took": "5s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/valuation-reviewer-case3.md"
         }
       ]
     },
@@ -47,13 +72,30 @@
       "what_it_does_1line": "对账总账（GL）和子账（subledger）之间的差异，找出原因并给调整分录",
       "non_tech_explanation": "财务每个月底要把总账的 5-10 个科目余额跟相应的子账（比如应收 aging 表、应付 invoice 列表）核对。Agent 自动对比两边，发现差异，并区分是 timing（截止时间不同）、policy（确认口径错了）还是 integration gap（系统没同步），最后给可直接入账的调整分录。",
       "technical_breakdown": {
-        "composes_skills": ["financial-analysis:audit-xls", "financial-analysis:debug-model"],
-        "subagents_used": ["variance classifier (timing / policy / integration)", "AJE generator (借贷分录格式)"],
-        "connectors_optional": ["NetSuite / SAP / QBO API（直接 query GL）", "Bizible / Salesforce（subledger 同步）"],
+        "composes_skills": [
+          "financial-analysis:audit-xls",
+          "financial-analysis:debug-model"
+        ],
+        "subagents_used": [
+          "variance classifier (timing / policy / integration)",
+          "AJE generator (借贷分录格式)"
+        ],
+        "connectors_optional": [
+          "NetSuite / SAP / QBO API（直接 query GL）",
+          "Bizible / Salesforce（subledger 同步）"
+        ],
         "compute_pattern": "读 GL trial balance + subledger reports → tie out account by account → diff classification → AJE"
       },
-      "inputs_required": ["GL trial balance（科目余额表）", "对应的 subledger 明细（AR aging / AP invoice list / payroll register）", "（可选）期间 cutoff 日期"],
-      "outputs_produced": ["对账工作底稿（科目 × variance × 类型）", "调整分录建议", "试算平衡校验"],
+      "inputs_required": [
+        "GL trial balance（科目余额表）",
+        "对应的 subledger 明细（AR aging / AP invoice list / payroll register）",
+        "（可选）期间 cutoff 日期"
+      ],
+      "outputs_produced": [
+        "对账工作底稿（科目 × variance × 类型）",
+        "调整分录建议",
+        "试算平衡校验"
+      ],
       "cases": [
         {
           "name": "Case 1 · 单实体 SaaS Co. 3 月对账（合成 3 异常）",
@@ -62,7 +104,9 @@
           "output": "AR +22.3k = timing diff（cutoff 错位，无需 AJE）/ Revenue +5k = ASC 606 提前确认收入（DR Rev 5k / CR Deferred Rev 5k）/ S&M -6.5k = 集成 gap（DR S&M 6.5k / CR AP 6.5k）",
           "result": "净影响 OpInc -11.5k；调整后试算平衡 ✅",
           "score": 9.0,
-          "took": "32s"
+          "took": "32s",
+          "status": "executed",
+          "artifact": "/artifacts/07-gl-reconciler.md"
         },
         {
           "name": "Case 2 · Multi-entity 季度对账（带跨实体往来）",
@@ -71,7 +115,9 @@
           "output": "母公司 IC AR 1.2M vs 子公司 IC AP 1.18M = 20k 差异（汇率 reval timing）/ AJE: DR FX Loss 20k / CR IC AR 20k",
           "result": "差异原因找到，建议加 IC monthly cutoff 锁定 FX 时点",
           "score": 8.7,
-          "took": "55s"
+          "took": "55s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/gl-reconciler-case2.md"
         },
         {
           "name": "Case 3 · 含明显数据错误的 GL（人工 typo）",
@@ -80,7 +126,9 @@
           "output": "🔴 AP 量级异常：GL 945,800 vs subledger 9,458,000 — 大概率 typo / 数据导入错误，不是会计差异",
           "result": "正确触发量级 sanity，未当真业务差异处理",
           "score": 8.5,
-          "took": "12s"
+          "took": "12s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/gl-reconciler-case3.md"
         }
       ]
     },
@@ -88,13 +136,35 @@
       "what_it_does_1line": "拉到一份季度财报后，自动产出投行体例的 surprise 表 + segment 拆解 + 模型调整 + PT 重估",
       "non_tech_explanation": "公司发完财报当晚，分析师要写 first-take note 给客户。Agent 看完 release + transcript 后，10 分钟内给你：①数据 vs 一致预期是 beat 还是 miss ②各 segment 的真实驱动力 ③管理层 guidance 怎么解读 ④模型怎么调 ⑤PT 是上调还是下调。卖方研究员的体力活外包。",
       "technical_breakdown": {
-        "composes_skills": ["equity-research:earnings", "equity-research:earnings-analysis", "sp-global:earnings-preview-beta"],
-        "subagents_used": ["transcript Q&A extractor", "consensus diff calculator", "PT triangulator (DCF + comps + prec txn)"],
-        "connectors_optional": ["SEC EDGAR (10-Q/8-K 直拉)", "Visible Alpha / FactSet 一致预期", "AlphaSense (transcript)"],
+        "composes_skills": [
+          "equity-research:earnings",
+          "equity-research:earnings-analysis",
+          "sp-global:earnings-preview-beta"
+        ],
+        "subagents_used": [
+          "transcript Q&A extractor",
+          "consensus diff calculator",
+          "PT triangulator (DCF + comps + prec txn)"
+        ],
+        "connectors_optional": [
+          "SEC EDGAR (10-Q/8-K 直拉)",
+          "Visible Alpha / FactSet 一致预期",
+          "AlphaSense (transcript)"
+        ],
         "compute_pattern": "fetch release + transcript → extract metrics → consensus diff → segment YoY/QoQ → guidance read → PT update"
       },
-      "inputs_required": ["公司 ticker", "季度（如 FY26Q1）", "（自动）一致预期 + transcript"],
-      "outputs_produced": ["Surprise 表（actual / cons / Δ）", "segment commentary", "guidance 解读", "model adj summary", "PT bump + rating"],
+      "inputs_required": [
+        "公司 ticker",
+        "季度（如 FY26Q1）",
+        "（自动）一致预期 + transcript"
+      ],
+      "outputs_produced": [
+        "Surprise 表（actual / cons / Δ）",
+        "segment commentary",
+        "guidance 解读",
+        "model adj summary",
+        "PT bump + rating"
+      ],
       "cases": [
         {
           "name": "Case 1 · NVDA FY26Q1（合成季度数据）",
@@ -103,7 +173,9 @@
           "output": "Rev 44.0b vs cons 43.1b (+2.1%)；DC 39.1b 含 Blackwell mid-50%；guidance Q2 +3.3% above cons；DC margin 73.6%；rating Buy；PT 165 → 178",
           "result": "完整 morning note 体例；surprise 表精准；guidance read 抓到 Blackwell ramp 主线",
           "score": 9.0,
-          "took": "42s"
+          "took": "42s",
+          "status": "executed",
+          "artifact": "/artifacts/03-earnings-reviewer.md"
         },
         {
           "name": "Case 2 · 茅台 2024 年报点评",
@@ -112,7 +184,9 @@
           "output": "营收符合预期；净利率 49.7% 维持高位；合同负债 145b 显示渠道压力可控；关注资本配置（200+b 现金 RoR 1-2.5%）",
           "result": "数据准确，但因为已经是年报（非季报），surprise 表不适用，体例自动切到 annual review 模式",
           "score": 8.0,
-          "took": "55s"
+          "took": "55s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/earnings-reviewer-case2.md"
         },
         {
           "name": "Case 3 · 数据缺失场景（pre-release）",
@@ -121,7 +195,9 @@
           "output": "返回 'release not yet filed'，自动切换到 earnings-preview 模式，给一致预期 + 关注点 + 历史 surprise pattern",
           "result": "Failsafe 优雅，未编造数字",
           "score": 8.5,
-          "took": "20s"
+          "took": "20s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/earnings-reviewer-case3.md"
         }
       ]
     },
@@ -129,13 +205,31 @@
       "what_it_does_1line": "给一家公司，自动建三表预测模型 + DCF + 敏感性 + DCF football field",
       "non_tech_explanation": "Equity research analyst 起笔覆盖一家新公司，最重活就是搭模型——5 年历史三表加 5 年预测，再做 DCF 估值、可比公司、敏感性表。Agent 直接产出 .xlsx 活模型，公式可追溯。analyst 接手后只需改假设，不用从零搭。",
       "technical_breakdown": {
-        "composes_skills": ["financial-analysis:3-statement-model", "financial-analysis:dcf-model", "financial-analysis:lbo-model"],
-        "subagents_used": ["filing parser (10-K XBRL → tagged facts)", "WACC builder (CAPM + 同业 β)", "sensitivity matrix builder"],
-        "connectors_optional": ["SEC EDGAR / Wind / Bloomberg（拉历史财报）", "Damodaran's β 库"],
+        "composes_skills": [
+          "financial-analysis:3-statement-model",
+          "financial-analysis:dcf-model",
+          "financial-analysis:lbo-model"
+        ],
+        "subagents_used": [
+          "filing parser (10-K XBRL → tagged facts)",
+          "WACC builder (CAPM + 同业 β)",
+          "sensitivity matrix builder"
+        ],
+        "connectors_optional": [
+          "SEC EDGAR / Wind / Bloomberg（拉历史财报）",
+          "Damodaran's β 库"
+        ],
         "compute_pattern": "fetch 5y filings → tag IS/BS/CF lines → forecast → DCF (FCFF) → TV → sensitivity → comps overlay"
       },
-      "inputs_required": ["公司 ticker / 名称", "（可选）行业增长假设", "（可选）WACC 范围"],
-      "outputs_produced": [".xlsx 活模型（IS/BS/CF 三表 + DCF + 敏感性 + comps tab）", "summary slide-ready markdown"],
+      "inputs_required": [
+        "公司 ticker / 名称",
+        "（可选）行业增长假设",
+        "（可选）WACC 范围"
+      ],
+      "outputs_produced": [
+        ".xlsx 活模型（IS/BS/CF 三表 + DCF + 敏感性 + comps tab）",
+        "summary slide-ready markdown"
+      ],
       "cases": [
         {
           "name": "Case 1 · 茅台 9 年三表 + DCF + 5×5 sensitivity",
@@ -144,7 +238,9 @@
           "output": "Implied per-share RMB 1,858（mid），区间 1,500-2,860（WACC 7.5-9.5% × g 1.5-3.5%）；vs market 1,371 = +35.5% 上行",
           "result": "完整 IB 模型骨架，但 markdown 表格非 .xlsx 活公式（短板）",
           "score": 8.5,
-          "took": "65s"
+          "took": "65s",
+          "status": "executed",
+          "artifact": "/artifacts/04-model-builder.md"
         },
         {
           "name": "Case 2 · 浪潮信息（小盘成长 SaaS-like）",
@@ -153,7 +249,9 @@
           "output": "三表完整 / DCF WACC 11% / g 3% / 5y FCF 区间敏感性显示 -30% ~ +40%（高 β）",
           "result": "对增长 + 高 capex 公司适配良好，但 working capital 模型简化",
           "score": 7.8,
-          "took": "70s"
+          "took": "70s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/model-builder-case2.md"
         },
         {
           "name": "Case 3 · 数据稀疏新上市公司",
@@ -162,7 +260,9 @@
           "output": "返回 5y 模型 + flag 'history < 5y, terminal 假设 +/- 50% 不确定'",
           "result": "Failsafe + 不确定性 quantify ✅",
           "score": 8.0,
-          "took": "40s"
+          "took": "40s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/model-builder-case3.md"
         }
       ]
     },
@@ -170,13 +270,33 @@
       "what_it_does_1line": "给一家公司，5 分钟出投行 sell-side teaser + pitch deck outline + strip profile 三件套",
       "non_tech_explanation": "投行 associate 接到新 mandate，第一周要做 pitch book。最累的是搭框架：公司画像、匿名 teaser、market sizing、competitive position、football field、流程时间表。Agent 给你 12 页 outline + 一页 strip + 一页匿名 teaser，直接套 branded template 出 .pptx。",
       "technical_breakdown": {
-        "composes_skills": ["investment-banking:pitch-deck", "investment-banking:strip-profile", "investment-banking:datapack-builder"],
-        "subagents_used": ["company painter (从 filings 抽 strip 数据)", "TAM sizer", "football field generator"],
-        "connectors_optional": ["Box / SharePoint（branded .pptx 模板）", "S&P CapIQ / FactSet（comps + prec txn）"],
+        "composes_skills": [
+          "investment-banking:pitch-deck",
+          "investment-banking:strip-profile",
+          "investment-banking:datapack-builder"
+        ],
+        "subagents_used": [
+          "company painter (从 filings 抽 strip 数据)",
+          "TAM sizer",
+          "football field generator"
+        ],
+        "connectors_optional": [
+          "Box / SharePoint（branded .pptx 模板）",
+          "S&P CapIQ / FactSet（comps + prec txn）"
+        ],
         "compute_pattern": "fetch filings + market data → strip → teaser → 12-page outline → football field"
       },
-      "inputs_required": ["target 公司名称 / ticker", "（可选）pitch 类型：sell-side / buy-side / IPO", "（可选）branded template"],
-      "outputs_produced": ["strip profile（一页）", "teaser（一页匿名）", "12-page deck outline", "football field 表"],
+      "inputs_required": [
+        "target 公司名称 / ticker",
+        "（可选）pitch 类型：sell-side / buy-side / IPO",
+        "（可选）branded template"
+      ],
+      "outputs_produced": [
+        "strip profile（一页）",
+        "teaser（一页匿名）",
+        "12-page deck outline",
+        "football field 表"
+      ],
       "cases": [
         {
           "name": "Case 1 · 浪潮信息 sell-side 'Project Tempest' 三件套",
@@ -185,7 +305,9 @@
           "output": "12-slide outline + 5 副板（revenue bridge / customer concentration / product roadmap / risks / why now）",
           "result": "投行 sell-side first-cut book 完整骨架；TAM 数字未引一手报告（短板）",
           "score": 8.6,
-          "took": "55s"
+          "took": "55s",
+          "status": "executed",
+          "artifact": "/artifacts/01-pitch-builder.md"
         },
         {
           "name": "Case 2 · 一家 PE 收购方的 buy-side defensive pitch",
@@ -194,7 +316,9 @@
           "output": "10-slide buy-side outline + IRR/MOIC table + exit comparable",
           "result": "buy-side 体例对，但 cold start 没接 LP 的 fund vintage 偏好",
           "score": 8.0,
-          "took": "60s"
+          "took": "60s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/pitch-builder-case2.md"
         },
         {
           "name": "Case 3 · IPO pre-pitch（招股书雏形）",
@@ -203,7 +327,9 @@
           "output": "12-slide pre-deal slide deck 框架 + 8 个 KPI sponsor view",
           "result": "结构对，但 risk factors 部分依赖训练数据，未做最新合规扫描",
           "score": 7.8,
-          "took": "70s"
+          "took": "70s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/pitch-builder-case3.md"
         }
       ]
     },
@@ -211,13 +337,29 @@
       "what_it_does_1line": "输入行业 + 时间锚点，输出 sector primer：TAM / 厂商月销 / 价值链 / 标的评级",
       "non_tech_explanation": "Equity 卖方分析师 sector initiation 时，第一份产出是 industry primer——市场多大、谁在打、谁在赢、技术周期到哪了、买哪只。Agent 一次性给你结构化 12-15 页 primer，分析师自己加 view 即可发出。",
       "technical_breakdown": {
-        "composes_skills": ["equity-research:sector", "equity-research:initiating-coverage"],
-        "subagents_used": ["TAM sizer", "competitive matrix builder", "value chain segmenter"],
-        "connectors_optional": ["IHS / Wind / Marklines / 乘联会（销量/出货）", "S&P CapIQ（comps）"],
+        "composes_skills": [
+          "equity-research:sector",
+          "equity-research:initiating-coverage"
+        ],
+        "subagents_used": [
+          "TAM sizer",
+          "competitive matrix builder",
+          "value chain segmenter"
+        ],
+        "connectors_optional": [
+          "IHS / Wind / Marklines / 乘联会（销量/出货）",
+          "S&P CapIQ（comps）"
+        ],
         "compute_pattern": "industry tag → TAM → players × share × YoY → value chain inflection → top picks"
       },
-      "inputs_required": ["行业 / sector 关键词", "时间锚点", "（可选）子赛道 focus"],
-      "outputs_produced": ["sector primer .docx（含 TAM / 月销表 / 价值链 / 投资观点表 / 风险 / 日历）"],
+      "inputs_required": [
+        "行业 / sector 关键词",
+        "时间锚点",
+        "（可选）子赛道 focus"
+      ],
+      "outputs_produced": [
+        "sector primer .docx（含 TAM / 月销表 / 价值链 / 投资观点表 / 风险 / 日历）"
+      ],
       "cases": [
         {
           "name": "Case 1 · 中国 NEV 行业 2026 年中观察",
@@ -226,7 +368,9 @@
           "output": "完整 sector primer + 12-月催化日历 + 海外本土化变量分析",
           "result": "sector note 体例完整；月销估计未对接 Marklines 实时（短板）",
           "score": 8.78,
-          "took": "50s"
+          "took": "50s",
+          "status": "executed",
+          "artifact": "/artifacts/05-market-researcher.md"
         },
         {
           "name": "Case 2 · 美国 GPU / AI 算力链",
@@ -235,7 +379,9 @@
           "output": "10-page primer + 5 标的 + ASIC 自研对 NVDA share 影响测算",
           "result": "framework 准确，但实时 capex 数字基于训练数据偏旧",
           "score": 8.3,
-          "took": "60s"
+          "took": "60s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/market-researcher-case2.md"
         },
         {
           "name": "Case 3 · 利基行业（中国合成生物）",
@@ -244,7 +390,9 @@
           "output": "primer with explicit caveat: 'TAM 数据有限，估算 +/- 30%'",
           "result": "对小众行业 graceful degradation，标记不确定性",
           "score": 7.8,
-          "took": "75s"
+          "took": "75s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/market-researcher-case3.md"
         }
       ]
     },
@@ -252,13 +400,30 @@
       "what_it_does_1line": "开会前 5 分钟，自动产出公司速览 + 议题清单 + 10 个待问问题 + 风险关注点",
       "non_tech_explanation": "买方分析师 meeting 前要做 prep，又烦又耗时。Agent 看一眼公司 ticker + meeting 类型，给你一份 pre-read pack：基本情况、最近事件、要问的 10 个问题、风险点、一致预期对比。开会进去不慌。",
       "technical_breakdown": {
-        "composes_skills": ["private-equity:dd-prep", "wealth-management:client-review", "equity-research:morning-note"],
-        "subagents_used": ["catalyst extractor (近期 30 天事件)", "Q&A list generator", "risk watch builder"],
-        "connectors_optional": ["Bloomberg / FactSet (一致预期 + 历史 transcript)", "Calendar (会议类型识别)"],
+        "composes_skills": [
+          "private-equity:dd-prep",
+          "wealth-management:client-review",
+          "equity-research:morning-note"
+        ],
+        "subagents_used": [
+          "catalyst extractor (近期 30 天事件)",
+          "Q&A list generator",
+          "risk watch builder"
+        ],
+        "connectors_optional": [
+          "Bloomberg / FactSet (一致预期 + 历史 transcript)",
+          "Calendar (会议类型识别)"
+        ],
         "compute_pattern": "company snapshot → recent catalysts → analyst Q&A list → consensus + risks"
       },
-      "inputs_required": ["target ticker", "meeting type", "（可选）特别 focus"],
-      "outputs_produced": ["1-page pre-read pack (snapshot + agenda + Q list + risks)"],
+      "inputs_required": [
+        "target ticker",
+        "meeting type",
+        "（可选）特别 focus"
+      ],
+      "outputs_produced": [
+        "1-page pre-read pack (snapshot + agenda + Q list + risks)"
+      ],
       "cases": [
         {
           "name": "Case 1 · NVDA 财报后管理层 Q&A 准备",
@@ -267,7 +432,9 @@
           "output": "10 个待问问题 (B200 占比 / 库存 / sovereign 锁定 / GM mix / 中国 / inference vs training / capex 集中度 / 软件 ARR / robotics / Hopper EOL)",
           "result": "覆盖了 sell-side 关心的 90% 议题；加 transcript 摘要会更香",
           "score": 9.0,
-          "took": "28s"
+          "took": "28s",
+          "status": "executed",
+          "artifact": "/artifacts/02-meeting-preparer.md"
         },
         {
           "name": "Case 2 · PE 项目尽调一对一",
@@ -276,7 +443,9 @@
           "output": "pre-read 含 10 个 dd 问题 + 红黄绿风险标注",
           "result": "PE 视角对，问题颗粒度合适",
           "score": 8.5,
-          "took": "32s"
+          "took": "32s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/meeting-preparer-case2.md"
         },
         {
           "name": "Case 3 · client review (财富管理客户季度复盘)",
@@ -285,7 +454,9 @@
           "output": "组合 attribution + 客户偏好回顾 + rebalance 建议预案",
           "result": "财富管理体例对，但缺税务 & 遗产规划深度",
           "score": 7.8,
-          "took": "40s"
+          "took": "40s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/meeting-preparer-case3.md"
         }
       ]
     },
@@ -293,13 +464,28 @@
       "what_it_does_1line": "拿到一份财报，做 tie-out + 比率 sanity + 披露完整性 + 异常关注点扫描",
       "non_tech_explanation": "内审师 / sell-side analyst 拿到上市公司年报，要快速 sanity check：数字勾不勾、比率合不合理、必须披露的事项有没有、有没有需要重点关注的异常。Agent 一次扫完，把人类要花 4 小时的 first-pass review 压到 1 分钟。",
       "technical_breakdown": {
-        "composes_skills": ["financial-analysis:audit-xls", "financial-analysis:ib-check-deck"],
-        "subagents_used": ["IS-CF tie-out", "ratio sanity comparator (vs 同业 baseline)", "disclosure checklist runner"],
-        "connectors_optional": ["SEC EDGAR (XBRL)", "Wind / 同花顺（同业 baseline）"],
+        "composes_skills": [
+          "financial-analysis:audit-xls",
+          "financial-analysis:ib-check-deck"
+        ],
+        "subagents_used": [
+          "IS-CF tie-out",
+          "ratio sanity comparator (vs 同业 baseline)",
+          "disclosure checklist runner"
+        ],
+        "connectors_optional": [
+          "SEC EDGAR (XBRL)",
+          "Wind / 同花顺（同业 baseline）"
+        ],
         "compute_pattern": "load 年报 → tie + foot + ratio → disclosure list → 异常 flag"
       },
-      "inputs_required": ["公司 ticker + 财年", "（可选）同业 baseline 范围"],
-      "outputs_produced": ["audit report markdown（5 段：tie-out / footing / ratio / disclosure / anomaly）"],
+      "inputs_required": [
+        "公司 ticker + 财年",
+        "（可选）同业 baseline 范围"
+      ],
+      "outputs_produced": [
+        "audit report markdown（5 段：tie-out / footing / ratio / disclosure / anomaly）"
+      ],
       "cases": [
         {
           "name": "Case 1 · 茅台 2024 年报",
@@ -308,7 +494,9 @@
           "output": "✅ 数字一致 / ⚠️ 比率超同业但茅台一贯如此（合理）/ ⚠️ 220b 现金堆积资本效率议题 / ⚠️ 1 项税务争议在审",
           "result": "5 段完整，专业判断到位（茅台特殊比率不当作 anomaly 处理）",
           "score": 8.5,
-          "took": "55s"
+          "took": "55s",
+          "status": "executed",
+          "artifact": "/artifacts/09-statement-auditor.md"
         },
         {
           "name": "Case 2 · 美国大型科技 10-K（合规导向）",
@@ -317,7 +505,9 @@
           "output": "✅ 全部 tie / 关注 capex 87b YoY +35% / segment Cloud margin 70% sustainable",
           "result": "对成熟大公司体例完整",
           "score": 8.7,
-          "took": "65s"
+          "took": "65s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/statement-auditor-case2.md"
         },
         {
           "name": "Case 3 · 含审计修正意见的中盘股",
@@ -326,7 +516,9 @@
           "output": "🔴 'qualified opinion' detected → 标记重大风险，深入审查 audit basis（关联交易 13.5b 未充分披露）",
           "result": "正确升级风险等级，给出 deep dive 入口",
           "score": 9.0,
-          "took": "50s"
+          "took": "50s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/statement-auditor-case3.md"
         }
       ]
     },
@@ -334,13 +526,32 @@
       "what_it_does_1line": "驱动月末 close cycle：close calendar + 5 类 JE 模板 + flux analysis + CFO 待审清单",
       "non_tech_explanation": "Controller 月底 7 天关账。Agent 先排 day+1 到 day+7 的 calendar（谁干啥），再帮你跑 accruals / 预付摊销 / payroll true-up / FX 重估 / ASC 606 收入释放 五类典型 JE，最后做 flux analysis（这月 vs 上月谁涨谁跌为啥）+ CFO 待确认事项。",
       "technical_breakdown": {
-        "composes_skills": ["financial-analysis:audit-xls", "financial-analysis:clean-data-xls"],
-        "subagents_used": ["close calendar planner", "JE template engine (5 大类)", "flux analyzer (% threshold)"],
-        "connectors_optional": ["NetSuite / QBO（直接发 JE）", "Slack（CFO 待确认 push）"],
+        "composes_skills": [
+          "financial-analysis:audit-xls",
+          "financial-analysis:clean-data-xls"
+        ],
+        "subagents_used": [
+          "close calendar planner",
+          "JE template engine (5 大类)",
+          "flux analyzer (% threshold)"
+        ],
+        "connectors_optional": [
+          "NetSuite / QBO（直接发 JE）",
+          "Slack（CFO 待确认 push）"
+        ],
         "compute_pattern": "load prior close → run accrual rules → JE → flux → CFO inquiry"
       },
-      "inputs_required": ["实体 trial balance", "上月 reference", "（可选）业务 KPI（用于 flux 解释）"],
-      "outputs_produced": ["close calendar (day +1 to +7)", "5 笔 AJE", "flux analysis 表", "CFO 待审清单"],
+      "inputs_required": [
+        "实体 trial balance",
+        "上月 reference",
+        "（可选）业务 KPI（用于 flux 解释）"
+      ],
+      "outputs_produced": [
+        "close calendar (day +1 to +7)",
+        "5 笔 AJE",
+        "flux analysis 表",
+        "CFO 待审清单"
+      ],
       "cases": [
         {
           "name": "Case 1 · SaaS 单实体 4 月月末（合成）",
@@ -349,7 +560,9 @@
           "output": "5 笔 JE：utility 4.2k / prepaid insurance 2.5k / deferred rev 185k / payroll true-up 12.5k / FX rev 0.85k；flux 显示 OpInc +15% MoM",
           "result": "controller 月末工作包基本齐",
           "score": 8.5,
-          "took": "40s"
+          "took": "40s",
+          "status": "executed",
+          "artifact": "/artifacts/08-month-end-closer.md"
         },
         {
           "name": "Case 2 · 多实体合并月末（带 IFRS-GAAP 调整）",
@@ -358,7 +571,9 @@
           "output": "9 笔 JE + IFRS-GAAP bridge + minority interest reconciliation",
           "result": "跨准则桥成立，但 LOC line 计算有 1 笔小差异（500 USD）需手工修",
           "score": 8.0,
-          "took": "70s"
+          "took": "70s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/month-end-closer-case2.md"
         },
         {
           "name": "Case 3 · 关账后异常发现",
@@ -367,7 +582,9 @@
           "output": "建议 prior period adjustment 或本月入账 + 影响材料性 disclosure 评估",
           "result": "处理流程符合 ASC 250，避免直接重开账",
           "score": 8.5,
-          "took": "30s"
+          "took": "30s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/month-end-closer-case3.md"
         }
       ]
     },
@@ -375,13 +592,28 @@
       "what_it_does_1line": "对公开户尽调 batch screening：identity + sanctions + PEP + adverse media + product 风险五维",
       "non_tech_explanation": "银行 / 私行的合规岗每天处理新对公开户。要把客户身份、UBO 结构、是否上制裁名单、是否 PEP（政要关联）、有没有负面新闻、产品本身风险（数字资产 / 跨境）都过一遍。Agent 直接 batch 接 World-Check / Dow Jones，给一份分级风险报告 + EDD（深度尽调）触发建议。",
       "technical_breakdown": {
-        "composes_skills": ["（依赖 finance-agents plugin 的独立 KYC agent）"],
-        "subagents_used": ["UBO chain tracer", "sanctions list matcher (OFAC/UN/EU/UK/HK)", "PEP attenuation calculator", "adverse media scanner"],
-        "connectors_optional": ["World-Check / Dow Jones Risk / Refinitiv（核心数据库）", "STRO / 公司注册局 API"],
+        "composes_skills": [
+          "（依赖 finance-agents plugin 的独立 KYC agent）"
+        ],
+        "subagents_used": [
+          "UBO chain tracer",
+          "sanctions list matcher (OFAC/UN/EU/UK/HK)",
+          "PEP attenuation calculator",
+          "adverse media scanner"
+        ],
+        "connectors_optional": [
+          "World-Check / Dow Jones Risk / Refinitiv（核心数据库）",
+          "STRO / 公司注册局 API"
+        ],
         "compute_pattern": "ID verify → sanctions screen → PEP analysis → adverse media → product risk → composite rating"
       },
-      "inputs_required": ["客户档案（公司 + UBO + 业务模式）", "（自动）连接合规数据库"],
-      "outputs_produced": ["5 维筛查报告 + risk grading + EDD 触发清单 + 季度 review schedule"],
+      "inputs_required": [
+        "客户档案（公司 + UBO + 业务模式）",
+        "（自动）连接合规数据库"
+      ],
+      "outputs_produced": [
+        "5 维筛查报告 + risk grading + EDD 触发清单 + 季度 review schedule"
+      ],
       "cases": [
         {
           "name": "Case 1 · Crescent Pacific（合成）数字资产托管",
@@ -390,7 +622,9 @@
           "output": "综合风险 Medium-High → EDD 启用 + 季度 review + 单笔 >\\$1M 额外审批 + 与 STRO 协同",
           "result": "5 维度 + risk grading + actionable 全套，false positive 处理专业",
           "score": 8.45,
-          "took": "60s"
+          "took": "60s",
+          "status": "executed",
+          "artifact": "/artifacts/10-kyc-screener.md"
         },
         {
           "name": "Case 2 · 制裁命中真阳性",
@@ -399,7 +633,9 @@
           "output": "🛑 拒绝开户；触发 SAR (Suspicious Activity Report) 流程；记录 audit trail 5 年",
           "result": "正确触发拒绝 + reporting 路径，无含糊判断",
           "score": 9.5,
-          "took": "45s"
+          "took": "45s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/kyc-screener-case2.md"
         },
         {
           "name": "Case 3 · 上市公司常规续期 review",
@@ -408,7 +644,9 @@
           "output": "无增量风险，建议续期；下次 review 时间 12 个月后",
           "result": "增量 review 模式正常，无 false alarm",
           "score": 8.5,
-          "took": "20s"
+          "took": "20s",
+          "status": "executed",
+          "artifact": "/artifacts/cases/kyc-screener-case3.md"
         }
       ]
     }

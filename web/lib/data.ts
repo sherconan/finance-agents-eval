@@ -11,6 +11,9 @@ export type AgentCase = {
   result: string;
   score: number;
   took: string;
+  status?: "executed" | "predicted";
+  artifact?: string;
+  caveat?: string;
 };
 
 export type AgentDeepDive = {

@@ -145,44 +145,78 @@ export default async function AgentDetail({ params }: { params: Promise<{ slug: 
       {/* 3 Cases — the meat of the evaluation */}
       {deep && (
         <section style={{ marginBottom: "2.5rem" }}>
-          <h2 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: ".5rem" }}>🧪 3 个实测案例</h2>
+          <h2 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: ".5rem" }}>🧪 3 个测试案例</h2>
           <p className="muted" style={{ marginBottom: "1.25rem", fontSize: ".95rem" }}>
-            每个 case 都标注：输入 → 处理 → 输出 → 结果评价 + 评分 + 耗时。这是评测最硬的证据。
+            <strong style={{ color: "var(--green)" }}>✅ Executed</strong> = 实际运行并产出真实 artifact ·
+            <strong style={{ color: "#fb923c" }}> ⏳ Predicted</strong> = 基于 agent 能力推断的预期产出（未实际运行）
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            {deep.cases.map((c, i) => (
-              <article
-                key={i}
-                className="card"
-                style={{
-                  borderLeft: `3px solid ${c.score >= 9 ? "var(--green)" : c.score >= 8 ? "var(--accent)" : "#fb923c"}`,
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: ".75rem", flexWrap: "wrap", gap: ".5rem" }}>
-                  <div style={{ fontSize: "1.05rem", fontWeight: 600 }}>{c.name}</div>
-                  <div style={{ display: "flex", gap: ".75rem", alignItems: "baseline" }}>
-                    <span style={{ fontSize: ".82rem", color: "var(--text-muted)" }}>耗时 {c.took}</span>
-                    <span style={{ fontSize: "1.1rem", fontWeight: 800, color: c.score >= 9 ? "var(--green)" : "var(--accent)" }}>
-                      {c.score.toFixed(1)}
-                    </span>
+            {deep.cases.map((c, i) => {
+              const isExec = c.status === "executed";
+              return (
+                <article
+                  key={i}
+                  className="card"
+                  style={{
+                    borderLeft: `3px solid ${isExec ? "var(--green)" : "#fb923c"}`,
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: ".75rem", flexWrap: "wrap", gap: ".5rem" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: ".5rem", flexWrap: "wrap" }}>
+                      <span
+                        className="tag"
+                        style={{
+                          background: isExec ? "rgba(16,185,129,.18)" : "rgba(251,146,60,.15)",
+                          color: isExec ? "var(--green)" : "#fb923c",
+                          fontSize: ".7rem",
+                        }}
+                      >
+                        {isExec ? "✅ Executed" : "⏳ Predicted"}
+                      </span>
+                      <span style={{ fontSize: "1.05rem", fontWeight: 600 }}>{c.name}</span>
+                    </div>
+                    <div style={{ display: "flex", gap: ".75rem", alignItems: "baseline" }}>
+                      <span style={{ fontSize: ".82rem", color: "var(--text-muted)" }}>耗时 {c.took}</span>
+                      <span style={{ fontSize: "1.1rem", fontWeight: 800, color: isExec ? "var(--green)" : "var(--accent)" }}>
+                        {c.score.toFixed(1)}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "60px 1fr", gap: ".5rem .75rem", fontSize: ".92rem", lineHeight: 1.65 }}>
-                  <span style={{ color: "#60a5fa", fontWeight: 600 }}>输入</span>
-                  <span style={{ color: "var(--text)" }}>{c.input}</span>
+                  {c.caveat && (
+                    <div style={{ marginBottom: ".75rem", padding: ".5rem .75rem", borderRadius: 6, background: "rgba(251,146,60,.08)", color: "#fb923c", fontSize: ".82rem", border: "1px solid rgba(251,146,60,.25)" }}>
+                      ℹ️ {c.caveat}
+                    </div>
+                  )}
 
-                  <span style={{ color: "var(--text-muted)", fontWeight: 600 }}>处理</span>
-                  <span className="muted">{c.process}</span>
+                  <div style={{ display: "grid", gridTemplateColumns: "60px 1fr", gap: ".5rem .75rem", fontSize: ".92rem", lineHeight: 1.65 }}>
+                    <span style={{ color: "#60a5fa", fontWeight: 600 }}>输入</span>
+                    <span style={{ color: "var(--text)" }}>{c.input}</span>
+                    <span style={{ color: "var(--text-muted)", fontWeight: 600 }}>处理</span>
+                    <span className="muted">{c.process}</span>
+                    <span style={{ color: "var(--green)", fontWeight: 600 }}>输出</span>
+                    <span style={{ color: "var(--text)" }}>{c.output}</span>
+                    <span style={{ color: "var(--accent)", fontWeight: 600 }}>结果</span>
+                    <span style={{ color: "var(--text)" }}><strong>{c.result}</strong></span>
+                  </div>
 
-                  <span style={{ color: "var(--green)", fontWeight: 600 }}>输出</span>
-                  <span style={{ color: "var(--text)" }}>{c.output}</span>
+                  {c.artifact && (
+                    <div style={{ marginTop: ".75rem", paddingTop: ".75rem", borderTop: "1px solid var(--border)", fontSize: ".82rem" }}>
+                      <a href={c.artifact} download style={{ color: "var(--accent)" }}>
+                        📄 下载实际 artifact ({c.artifact.split("/").pop()})
+                      </a>
+                    </div>
+                  )}
+                </article>
+              );
+            })}
+          </div>
 
-                  <span style={{ color: "var(--accent)", fontWeight: 600 }}>结果</span>
-                  <span style={{ color: "var(--text)" }}><strong>{c.result}</strong></span>
-                </div>
-              </article>
-            ))}
+          <div style={{ marginTop: "1rem", padding: "1rem 1.25rem", background: "rgba(16,185,129,.06)", border: "1px solid rgba(16,185,129,.25)", borderRadius: 12, fontSize: ".88rem", lineHeight: 1.55, color: "var(--text-muted)" }}>
+            <strong style={{ color: "var(--green)" }}>实测披露：</strong>
+            本 agent 的 3 个 case 均已实际运行并产出独立 artifact 文件（见每个 case 卡片底部下载链接）。
+            评测路径仍为 capability-equivalent（用 Claude 完整工具集模拟 agent 行为，非真实 slash 命令调用）——
+            完整方法论 + 局限性披露见 <a href="/methodology" style={{ color: "var(--accent)" }}>/methodology</a>。
           </div>
         </section>
       )}
