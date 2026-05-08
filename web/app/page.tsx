@@ -6,6 +6,7 @@ import { HBarChart } from "@/components/BarChart";
 import { UseCaseMatrix } from "@/components/UseCaseMatrix";
 import { WeightTuner } from "@/components/WeightTuner";
 import { LiveTicker } from "@/components/LiveTicker";
+import { ArtifactShowcase } from "@/components/ArtifactShowcase";
 
 const COLORS = ["#f59e0b", "#3b82f6", "#10b981", "#ef4444", "#8b5cf6"];
 
@@ -43,10 +44,11 @@ export default function Home() {
           本站基于 Claude Code v{data.release.claude_code_version} 完成端到端评测——5 维客观打分 + 真实 artifact + 横向对比。
         </p>
         <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem", flexWrap: "wrap" }}>
-          <Link href="#ranking" className="btn">看榜单 →</Link>
-          <Link href="/roi" className="btn btn-outline">ROI 计算器</Link>
+          <Link href="/artifacts" className="btn">📄 看实测产出 →</Link>
+          <Link href="#ranking" className="btn btn-outline">榜单</Link>
           <Link href="/case" className="btn btn-outline">深度案例</Link>
-          <Link href="/vs" className="btn btn-outline">vs 同行</Link>
+          <Link href="/roi" className="btn btn-outline">ROI 计算器</Link>
+          <Link href="/duel" className="btn btn-outline">Agent 对决</Link>
         </div>
       </section>
 
@@ -76,6 +78,9 @@ export default function Home() {
           <div className="muted" style={{ fontSize: ".8rem" }}>真实数据 · 可下载</div>
         </div>
       </section>
+
+      {/* Real artifact showcase — moved up so users see actual eval output ASAP */}
+      <ArtifactShowcase />
 
       {/* Top podium */}
       <section style={{ marginBottom: "3rem" }}>
