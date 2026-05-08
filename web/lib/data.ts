@@ -1,6 +1,36 @@
 import results from "@/data/results.json";
+import deepDive from "@/data/agent-deep-dive.json";
 import fs from "node:fs";
 import path from "node:path";
+
+export type AgentCase = {
+  name: string;
+  input: string;
+  process: string;
+  output: string;
+  result: string;
+  score: number;
+  took: string;
+};
+
+export type AgentDeepDive = {
+  what_it_does_1line: string;
+  non_tech_explanation: string;
+  technical_breakdown: {
+    composes_skills: string[];
+    subagents_used: string[];
+    connectors_optional: string[];
+    compute_pattern: string;
+  };
+  inputs_required: string[];
+  outputs_produced: string[];
+  cases: AgentCase[];
+};
+
+export function getDeepDive(slug: string): AgentDeepDive | undefined {
+  const all = (deepDive as { agents: Record<string, AgentDeepDive> }).agents;
+  return all[slug];
+}
 
 export type Agent = {
   slug: string;
