@@ -2,7 +2,17 @@
 
 **Agent**: `equity-research:earnings` + `equity-research:earnings-analysis` + `sp-global:earnings-preview-beta`
 **Test**: NVIDIA FY26Q1 (quarter ended Apr 2026) — earnings review note
-**Real-data anchor (2026-05-07 close, Yahoo Finance v8)**: NVDA = **$213.04** · 52w range $115.21–$216.83 · vol 124.7M
+**Real-data anchor (2026-05-08 close, Yahoo Finance v8 — 5 大科技巨头)**:
+
+| Ticker | Price | 5d Δ% | 52w Range | Mkt Cap (est) |
+|---|---:|---:|---|---:|
+| NVDA | **$211.50** | +1.77% | $115.21–$216.83 | ~$5.16T |
+| AAPL | $287.44 | -0.02% | $193.46–$292.13 | ~$4.29T |
+| MSFT | $420.77 | +1.65% | $356.28–$555.45 | ~$3.13T |
+| GOOGL | $397.99 | -0.01% | $152.20–$400.10 | ~$4.90T |
+| META | $616.81 | +0.64% | $520.26–$796.25 | ~$1.55T |
+
+> Sanity 校验：5 大互联网/AI 巨头合计市值约 **$19.0 T**，对照 2026 年中标普 500 总市值 ~$60T，前 5 占比 ~32%——AI 资本集中度处历史峰值。本评测对 earnings-reviewer 的实测就是看它能不能在这种 stretched valuation 环境下正确识别业绩拐点。
 
 ---
 

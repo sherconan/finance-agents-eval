@@ -1,9 +1,9 @@
-// Live quotes endpoint — fetches NVDA + 茅台 from public APIs
+// Live quotes endpoint — fetches 5 US AI/tech megacaps + Kweichow Moutai (A-share).
 // Cached 5 min via Next.js fetch cache.
 
 import { NextResponse } from "next/server";
 
-export const revalidate = 300; // 5 min ISR
+export const revalidate = 300;
 export const dynamic = "force-dynamic";
 
 type Quote = {
@@ -21,10 +21,19 @@ type Quote = {
   fetched_at: string;
 };
 
-async function fetchNVDA(): Promise<Quote | null> {
+// Shares outstanding (rough, post-recent splits/buybacks) for cap derivation
+const US_TICKERS: Array<{ ticker: string; name: string; shares: number }> = [
+  { ticker: "NVDA",  name: "NVIDIA",   shares: 24.4e9 },   // post-Jun-2024 10:1 split
+  { ticker: "AAPL",  name: "Apple",    shares: 14.94e9 },
+  { ticker: "MSFT",  name: "Microsoft", shares: 7.43e9 },
+  { ticker: "GOOGL", name: "Alphabet",  shares: 12.30e9 },
+  { ticker: "META",  name: "Meta",      shares: 2.52e9 },
+];
+
+async function fetchYahoo(t: { ticker: string; name: string; shares: number }): Promise<Quote | null> {
   try {
     const res = await fetch(
-      "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=5d&interval=1d",
+      `https://query1.finance.yahoo.com/v8/finance/chart/${t.ticker}?range=5d&interval=1d`,
       {
         headers: { "User-Agent": "Mozilla/5.0" },
         next: { revalidate: 300 },
@@ -35,21 +44,19 @@ async function fetchNVDA(): Promise<Quote | null> {
     const meta = j.chart?.result?.[0]?.meta;
     const closes = j.chart?.result?.[0]?.indicators?.quote?.[0]?.close ?? [];
     if (!meta) return null;
-    const last = meta.regularMarketPrice;
-    const prev = closes.length >= 2 ? closes[closes.length - 2] : meta.previousClose;
+    const last = meta.regularMarketPrice as number;
+    const prev = (closes.length >= 2 && closes[closes.length - 2]) ? closes[closes.length - 2] : meta.previousClose;
     const change_abs = last - prev;
     const change_pct = (change_abs / prev) * 100;
-    // NVDA: ~24.4B shares post-Jun-2024 10-for-1 split (anchor for cap calc)
-    const NVDA_SHARES = 24_400_000_000;
     return {
-      ticker: "NVDA",
-      name: "NVIDIA",
+      ticker: t.ticker,
+      name: t.name,
       exchange: "NASDAQ",
       currency: "USD",
       price: last,
       change_pct: Number(change_pct.toFixed(2)),
       change_abs: Number(change_abs.toFixed(2)),
-      market_cap: Math.round(last * NVDA_SHARES),
+      market_cap: Math.round(last * t.shares),
       fifty_two_week_low: meta.fiftyTwoWeekLow,
       fifty_two_week_high: meta.fiftyTwoWeekHigh,
       source: "Yahoo Finance v8",
@@ -68,7 +75,6 @@ async function fetchMoutai(): Promise<Quote | null> {
     });
     if (!res.ok) return null;
     const txt = await res.text();
-    // v_sh600519="1~name~code~price~prevClose~open~vol~..."
     const m = txt.match(/="([^"]+)"/);
     if (!m) return null;
     const fields = m[1].split("~");
@@ -76,7 +82,7 @@ async function fetchMoutai(): Promise<Quote | null> {
     const prev = parseFloat(fields[4]);
     const change_abs = price - prev;
     const change_pct = (change_abs / prev) * 100;
-    // Tencent format: fields[44] = 总市值 in 亿元 (e.g. 17169.25 → ¥1.717T)
+    // fields[44] = 总市值 in 亿元
     const capYi = parseFloat(fields[44]) || 0;
     const market_cap = Math.round(capYi * 1e8);
     return {
@@ -87,7 +93,7 @@ async function fetchMoutai(): Promise<Quote | null> {
       price,
       change_pct: Number(change_pct.toFixed(2)),
       change_abs: Number(change_abs.toFixed(2)),
-      market_cap: Math.round(market_cap),
+      market_cap,
       source: "Tencent qt.gtimg.cn",
       fetched_at: new Date().toISOString(),
     };
@@ -97,10 +103,21 @@ async function fetchMoutai(): Promise<Quote | null> {
 }
 
 export async function GET() {
-  const [nvda, moutai] = await Promise.all([fetchNVDA(), fetchMoutai()]);
-  const quotes = [nvda, moutai].filter(Boolean) as Quote[];
-  return NextResponse.json({
-    quotes,
-    refreshed_at: new Date().toISOString(),
-  });
+  const all = await Promise.all([
+    ...US_TICKERS.map((t) => fetchYahoo(t)),
+    fetchMoutai(),
+  ]);
+  const quotes = all.filter(Boolean) as Quote[];
+  return NextResponse.json(
+    {
+      quotes,
+      refreshed_at: new Date().toISOString(),
+    },
+    {
+      headers: {
+        "Cache-Control": "public, max-age=120, s-maxage=300",
+        "Access-Control-Allow-Origin": "*",
+      },
+    },
+  );
 }

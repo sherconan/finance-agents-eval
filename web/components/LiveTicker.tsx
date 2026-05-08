@@ -78,9 +78,9 @@ export function LiveTicker() {
         </span>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
-        {loading && [1, 2].map((k) => (
-          <div key={k} style={{ height: 70, background: "var(--bg-elev)", borderRadius: 8, opacity: .5 }} />
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: ".9rem" }}>
+        {loading && [1, 2, 3, 4, 5, 6].map((k) => (
+          <div key={k} style={{ height: 78, background: "var(--bg-elev)", borderRadius: 8, opacity: .5 }} />
         ))}
         {quotes.map((q) => {
           const isUp = q.change_pct >= 0;
