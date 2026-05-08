@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { data, getDeepDive, getCaseContent } from "@/lib/data";
 import { mdToHtml } from "@/lib/markdown";
+import { describeSkill } from "@/lib/skill-explanations";
 
 export const metadata = { title: "评测结果一览 · 10 agents × 3 cases" };
 
@@ -79,9 +80,9 @@ export default function ResultsPage() {
         </div>
       </section>
 
-      {/* Detailed: each agent + 3 case ALWAYS-VISIBLE full content */}
+      {/* Detailed: each agent — intro → composition → cases */}
       {rows.map(({ agent, deep, caseContents }) => (
-        <section key={agent.slug} id={agent.slug} style={{ marginBottom: "3.5rem", paddingTop: "1rem", scrollMarginTop: "1rem" }}>
+        <section key={agent.slug} id={agent.slug} style={{ marginBottom: "4rem", paddingTop: "1rem", scrollMarginTop: "1rem" }}>
           <header style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: "1rem", padding: ".75rem 1rem", background: "linear-gradient(90deg, rgba(245,158,11,.08), transparent)", borderLeft: "4px solid var(--accent)", borderRadius: 8 }}>
             <span style={{ fontSize: "2rem" }}>{agent.icon}</span>
             <div style={{ flex: 1 }}>
@@ -93,7 +94,7 @@ export default function ResultsPage() {
               </h2>
               {deep && (
                 <p style={{ fontSize: ".95rem", color: "var(--text)", marginTop: ".15rem" }}>
-                  <strong style={{ color: "var(--accent)" }}>能干啥：</strong> {deep.what_it_does_1line}
+                  <strong style={{ color: "var(--accent)" }}>一句话：</strong> {deep.what_it_does_1line}
                 </p>
               )}
             </div>
@@ -101,6 +102,85 @@ export default function ResultsPage() {
               详情 →
             </Link>
           </header>
+
+          {deep && (
+            <>
+              {/* 1) 是什么（用人话） */}
+              <div className="card" style={{ marginBottom: "1rem", padding: "1.25rem 1.5rem", borderLeft: "3px solid #60a5fa" }}>
+                <div style={{ fontSize: ".75rem", color: "#60a5fa", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: ".5rem", fontWeight: 600 }}>
+                  ① 它是干什么的（用人话）
+                </div>
+                <p style={{ fontSize: "1rem", lineHeight: 1.7 }}>{deep.non_tech_explanation}</p>
+              </div>
+
+              {/* 2) 由什么组成 */}
+              <div className="card" style={{ marginBottom: "1rem", padding: "1.25rem 1.5rem", borderLeft: "3px solid #8b5cf6" }}>
+                <div style={{ fontSize: ".75rem", color: "#8b5cf6", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: ".75rem", fontWeight: 600 }}>
+                  ② 它由什么组成（每个元素干啥）
+                </div>
+
+                {/* Skills */}
+                <div style={{ marginBottom: "1rem" }}>
+                  <div style={{ fontSize: ".88rem", fontWeight: 600, marginBottom: ".5rem" }}>🧩 Skills · 核心能力（{deep.technical_breakdown.composes_skills.length}）</div>
+                  <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none" }}>
+                    {deep.technical_breakdown.composes_skills.map((s, i) => (
+                      <li key={i} style={{ display: "grid", gridTemplateColumns: "minmax(220px, 1fr) 2fr", gap: ".5rem 1rem", padding: ".4rem 0", borderTop: i ? "1px dashed var(--border)" : "none", fontSize: ".88rem" }}>
+                        <code style={{ color: "var(--accent)", fontFamily: "ui-monospace, monospace" }}>{s}</code>
+                        <span className="muted">{describeSkill(s)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Subagents */}
+                <div style={{ marginBottom: "1rem" }}>
+                  <div style={{ fontSize: ".88rem", fontWeight: 600, marginBottom: ".5rem" }}>🤖 Subagents · 子任务执行单元（{deep.technical_breakdown.subagents_used.length}）</div>
+                  <ul style={{ margin: 0, paddingLeft: "1.1rem", lineHeight: 1.7, fontSize: ".88rem" }}>
+                    {deep.technical_breakdown.subagents_used.map((s, i) => (<li key={i}>{s}</li>))}
+                  </ul>
+                </div>
+
+                {/* Connectors */}
+                <div style={{ marginBottom: "1rem" }}>
+                  <div style={{ fontSize: ".88rem", fontWeight: 600, marginBottom: ".5rem" }}>🔌 Connectors · 数据接入（可选 · {deep.technical_breakdown.connectors_optional.length}）</div>
+                  <ul style={{ margin: 0, paddingLeft: "1.1rem", lineHeight: 1.7, fontSize: ".88rem" }}>
+                    {deep.technical_breakdown.connectors_optional.map((s, i) => (<li key={i}>{s}</li>))}
+                  </ul>
+                </div>
+
+                {/* Compute pattern */}
+                <div style={{ marginBottom: "1rem" }}>
+                  <div style={{ fontSize: ".88rem", fontWeight: 600, marginBottom: ".5rem" }}>⚙️ 内部流程</div>
+                  <code style={{ display: "block", padding: ".75rem 1rem", background: "var(--bg-elev)", borderRadius: 8, fontSize: ".85rem", lineHeight: 1.6, color: "var(--text)", whiteSpace: "pre-wrap" }}>
+                    {deep.technical_breakdown.compute_pattern}
+                  </code>
+                </div>
+
+                {/* Inputs / Outputs */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                  <div style={{ padding: ".75rem 1rem", background: "rgba(59,130,246,.08)", borderRadius: 8, border: "1px solid rgba(59,130,246,.25)" }}>
+                    <div style={{ color: "#60a5fa", fontWeight: 600, fontSize: ".85rem", marginBottom: ".4rem" }}>📥 输入需要</div>
+                    <ul style={{ margin: 0, paddingLeft: "1.1rem", lineHeight: 1.6, fontSize: ".85rem" }}>
+                      {deep.inputs_required.map((s, i) => (<li key={i}>{s}</li>))}
+                    </ul>
+                  </div>
+                  <div style={{ padding: ".75rem 1rem", background: "rgba(16,185,129,.08)", borderRadius: 8, border: "1px solid rgba(16,185,129,.25)" }}>
+                    <div style={{ color: "var(--green)", fontWeight: 600, fontSize: ".85rem", marginBottom: ".4rem" }}>📤 输出产出</div>
+                    <ul style={{ margin: 0, paddingLeft: "1.1rem", lineHeight: 1.6, fontSize: ".85rem" }}>
+                      {deep.outputs_produced.map((s, i) => (<li key={i}>{s}</li>))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3) Cases label */}
+              <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginBottom: ".75rem", padding: ".5rem 1rem", borderLeft: "3px solid var(--green)", background: "rgba(16,185,129,.06)", borderRadius: 6 }}>
+                <span style={{ fontSize: ".75rem", color: "var(--green)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 600 }}>
+                  ③ 实测案例（3 个全部已 Executed · 完整内容下面直接看）
+                </span>
+              </div>
+            </>
+          )}
 
           {/* 3 cases — all FULL content always visible */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
