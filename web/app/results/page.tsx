@@ -5,7 +5,6 @@ import { mdToHtml } from "@/lib/markdown";
 export const metadata = { title: "评测结果一览 · 10 agents × 3 cases" };
 
 export default function ResultsPage() {
-  // Pre-render all 30 case contents at build time
   const rows = data.results.map((agent) => {
     const deep = getDeepDive(agent.slug);
     return {
@@ -22,16 +21,16 @@ export default function ResultsPage() {
     <div className="container" style={{ paddingTop: "2rem", maxWidth: 1200 }}>
       <div className="tag" style={{ marginBottom: ".75rem" }}>核心 · 评测结果一览</div>
       <h1 style={{ fontSize: "clamp(2rem, 4vw, 2.8rem)", fontWeight: 800, letterSpacing: "-.01em", marginBottom: ".5rem" }}>
-        10 个 Agent · 30 个实测 Case · <span className="gradient-text">现在就在这一页</span>
+        10 个 Agent · 30 个实测 Case · <span className="gradient-text">全部内容直接看</span>
       </h1>
       <p className="muted" style={{ maxWidth: 800, lineHeight: 1.65, marginBottom: "1.5rem" }}>
-        每行一个 agent，每个 agent 跑了 3 个 case。点击任意 case 直接在页面展开看完整内容——不用下载、不用跳转。
-        所有 30 个 case 都已实际产出 markdown artifact。
+        所有 30 个 case 的实测内容都铺在下面——直接滚动、直接看，<strong style={{ color: "var(--accent)" }}>没有任何折叠或下载</strong>。
+        顶部矩阵是评分速览，点任何分数都能跳到对应 case。
       </p>
 
-      {/* At-a-glance score matrix */}
-      <section style={{ marginBottom: "2rem" }}>
-        <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".75rem" }}>📊 30 个 case 评分矩阵（一眼看完）</h2>
+      {/* At-a-glance score matrix — sticky-ish navigation */}
+      <section style={{ marginBottom: "2.5rem" }}>
+        <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".75rem" }}>📊 30 个 case 评分矩阵（点击跳转）</h2>
         <div className="card" style={{ padding: 0, overflow: "auto" }}>
           <table className="ranking" style={{ minWidth: 720 }}>
             <thead>
@@ -80,36 +79,31 @@ export default function ResultsPage() {
         </div>
       </section>
 
-      <div className="muted" style={{ fontSize: ".82rem", marginBottom: "2rem", padding: ".75rem 1rem", borderLeft: "3px solid var(--green)", background: "rgba(16,185,129,.06)" }}>
-        ✅ <strong style={{ color: "var(--green)" }}>30/30 全部 Executed</strong> · 每 case 都有独立 markdown 落盘 ·
-        往下滚直接看每个 case 的完整内容
-      </div>
-
-      {/* Detailed: each agent + 3 expandable cases */}
+      {/* Detailed: each agent + 3 case ALWAYS-VISIBLE full content */}
       {rows.map(({ agent, deep, caseContents }) => (
-        <section key={agent.slug} id={agent.slug} style={{ marginBottom: "3rem", paddingTop: "1rem" }}>
-          <header style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: ".75rem", paddingBottom: ".75rem", borderBottom: "2px solid var(--border)" }}>
-            <span style={{ fontSize: "1.8rem" }}>{agent.icon}</span>
+        <section key={agent.slug} id={agent.slug} style={{ marginBottom: "3.5rem", paddingTop: "1rem", scrollMarginTop: "1rem" }}>
+          <header style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: "1rem", padding: ".75rem 1rem", background: "linear-gradient(90deg, rgba(245,158,11,.08), transparent)", borderLeft: "4px solid var(--accent)", borderRadius: 8 }}>
+            <span style={{ fontSize: "2rem" }}>{agent.icon}</span>
             <div style={{ flex: 1 }}>
-              <h2 style={{ fontSize: "1.35rem", fontWeight: 700 }}>
-                {agent.name}
+              <h2 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: ".15rem" }}>
+                #{agent.rank} {agent.name}
                 <span className="muted" style={{ fontWeight: 400, fontSize: "1rem", marginLeft: ".75rem" }}>
-                  #{agent.rank} · 总分 {agent.total.toFixed(2)}
+                  总分 {agent.total.toFixed(2)}
                 </span>
               </h2>
               {deep && (
-                <p className="muted" style={{ fontSize: ".92rem", marginTop: ".2rem" }}>
-                  {deep.what_it_does_1line}
+                <p style={{ fontSize: ".95rem", color: "var(--text)", marginTop: ".15rem" }}>
+                  <strong style={{ color: "var(--accent)" }}>能干啥：</strong> {deep.what_it_does_1line}
                 </p>
               )}
             </div>
-            <Link href={`/agents/${agent.slug}`} className="btn btn-outline" style={{ fontSize: ".82rem", padding: ".4rem .8rem" }}>
-              详情页 →
+            <Link href={`/agents/${agent.slug}`} className="btn btn-outline hide-on-mobile" style={{ fontSize: ".82rem", padding: ".4rem .8rem" }}>
+              详情 →
             </Link>
           </header>
 
-          {/* 3 cases — each with FULL content inline */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          {/* 3 cases — all FULL content always visible */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             {deep?.cases.map((c, i) => {
               const html = caseContents[i] ? mdToHtml(caseContents[i]) : "";
               return (
@@ -117,46 +111,69 @@ export default function ResultsPage() {
                   key={i}
                   id={`${agent.slug}-case${i + 1}`}
                   className="card"
-                  style={{ borderLeft: `3px solid ${cellColor(c.score)}` }}
+                  style={{
+                    borderLeft: `4px solid ${cellColor(c.score)}`,
+                    scrollMarginTop: "1rem",
+                  }}
                 >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: ".5rem", flexWrap: "wrap", gap: ".5rem" }}>
+                  {/* Case header */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: ".75rem", flexWrap: "wrap", gap: ".5rem" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: ".5rem", flexWrap: "wrap" }}>
                       <span className="tag" style={{ background: "rgba(16,185,129,.18)", color: "var(--green)", fontSize: ".7rem" }}>✅ Executed</span>
-                      <span style={{ fontSize: "1rem", fontWeight: 600 }}>{c.name}</span>
+                      <span style={{ fontSize: "1.05rem", fontWeight: 600 }}>{c.name}</span>
                     </div>
                     <div style={{ display: "flex", gap: ".75rem", alignItems: "baseline" }}>
-                      <span className="muted" style={{ fontSize: ".8rem" }}>耗时 {c.took}</span>
-                      <span style={{ fontSize: "1.2rem", fontWeight: 800, color: cellColor(c.score) }}>{c.score.toFixed(1)}</span>
+                      <span className="muted" style={{ fontSize: ".82rem" }}>耗时 {c.took}</span>
+                      <span style={{ fontSize: "1.4rem", fontWeight: 800, color: cellColor(c.score) }}>{c.score.toFixed(1)}</span>
+                    </div>
+                  </div>
+
+                  {/* BIG result banner */}
+                  <div
+                    style={{
+                      padding: "1rem 1.25rem",
+                      borderRadius: 10,
+                      background: `linear-gradient(135deg, ${cellColor(c.score)}1a, ${cellColor(c.score)}0a)`,
+                      border: `1px solid ${cellColor(c.score)}40`,
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    <div style={{ fontSize: ".75rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: ".25rem" }}>
+                      🏁 Result
+                    </div>
+                    <div style={{ fontSize: "1.05rem", fontWeight: 600, lineHeight: 1.5, color: cellColor(c.score) }}>
+                      {c.result}
                     </div>
                   </div>
 
                   {/* Quick summary table */}
-                  <div style={{ display: "grid", gridTemplateColumns: "60px 1fr", gap: ".4rem .75rem", fontSize: ".88rem", lineHeight: 1.6, marginBottom: ".75rem", padding: ".75rem 1rem", background: "var(--bg-elev)", borderRadius: 8 }}>
-                    <span style={{ color: "#60a5fa", fontWeight: 600 }}>输入</span>
+                  <div style={{ display: "grid", gridTemplateColumns: "60px 1fr", gap: ".4rem .75rem", fontSize: ".88rem", lineHeight: 1.6, marginBottom: "1rem", padding: ".75rem 1rem", background: "var(--bg-elev)", borderRadius: 8 }}>
+                    <span style={{ color: "#60a5fa", fontWeight: 600 }}>📥 输入</span>
                     <span>{c.input}</span>
-                    <span style={{ color: "var(--text-muted)", fontWeight: 600 }}>处理</span>
+                    <span style={{ color: "var(--text-muted)", fontWeight: 600 }}>⚙️ 处理</span>
                     <span className="muted">{c.process}</span>
-                    <span style={{ color: "var(--green)", fontWeight: 600 }}>输出</span>
+                    <span style={{ color: "var(--green)", fontWeight: 600 }}>📤 输出</span>
                     <span>{c.output}</span>
-                    <span style={{ color: "var(--accent)", fontWeight: 600 }}>结果</span>
-                    <span><strong>{c.result}</strong></span>
                   </div>
 
-                  {/* FULL inline content */}
+                  {/* FULL inline content — ALWAYS visible */}
                   {html && (
-                    <details>
-                      <summary style={{ cursor: "pointer", listStyle: "none", display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".5rem .75rem", background: "rgba(245,158,11,.08)", borderRadius: 8, fontSize: ".88rem" }}>
-                        <span style={{ color: "var(--accent)", fontWeight: 600 }}>📖 展开完整 case 内容</span>
-                        <span className="muted" style={{ fontSize: ".78rem" }}>
-                          {(caseContents[i].length / 1000).toFixed(1)}k 字 · 展开看完整推理 / 表格 / 评价
-                        </span>
-                      </summary>
+                    <div>
+                      <div style={{ fontSize: ".75rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: ".5rem" }}>
+                        📖 完整 Case Artifact ({(caseContents[i].length / 1000).toFixed(1)}k 字)
+                      </div>
                       <article
                         className="prose-art"
-                        style={{ marginTop: ".75rem", padding: "1.25rem 1.5rem", background: "var(--bg-elev)", border: "1px solid var(--border)", borderRadius: 8, fontSize: ".92rem" }}
+                        style={{
+                          padding: "1.25rem 1.5rem",
+                          background: "var(--bg-elev)",
+                          border: "1px solid var(--border)",
+                          borderRadius: 10,
+                          fontSize: ".92rem",
+                        }}
                         dangerouslySetInnerHTML={{ __html: html }}
                       />
-                    </details>
+                    </div>
                   )}
                 </article>
               );
@@ -165,7 +182,6 @@ export default function ResultsPage() {
         </section>
       ))}
 
-      {/* Bottom nav */}
       <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "3rem", paddingTop: "1rem", borderTop: "1px solid var(--border)" }}>
         <Link href="/" className="btn btn-outline">← 返回首页</Link>
         <Link href="/methodology" className="btn btn-outline">评测方法论</Link>
