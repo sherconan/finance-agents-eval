@@ -40,7 +40,7 @@ export function TickerBar() {
   return (
     <div
       style={{
-        background: "linear-gradient(90deg, #050913 0%, #0a0e1a 30%, #0a0e1a 70%, #050913 100%)",
+        background: "linear-gradient(90deg, #f8fafc 0%, #ffffff 30%, #ffffff 70%, #f8fafc 100%)",
         borderBottom: "1px solid var(--border)",
         height: 36,
         position: "relative",
@@ -61,7 +61,7 @@ export function TickerBar() {
           alignItems: "center",
           gap: ".5rem",
           padding: "0 1rem",
-          background: "linear-gradient(90deg, #050913 70%, transparent)",
+          background: "linear-gradient(90deg, #f8fafc 70%, transparent)",
           zIndex: 2,
           fontSize: ".7rem",
           color: "var(--text-muted)",
