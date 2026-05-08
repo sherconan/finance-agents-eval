@@ -44,11 +44,10 @@ export default function Home() {
           本站基于 Claude Code v{data.release.claude_code_version} 完成端到端评测——5 维客观打分 + 真实 artifact + 横向对比。
         </p>
         <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem", flexWrap: "wrap" }}>
-          <Link href="/artifacts" className="btn">📄 看实测产出 →</Link>
+          <Link href="/results" className="btn" style={{ fontSize: "1.05rem", padding: ".75rem 1.5rem" }}>★ 看 30 个 case 实测结果 →</Link>
           <Link href="#ranking" className="btn btn-outline">榜单</Link>
           <Link href="/case" className="btn btn-outline">深度案例</Link>
           <Link href="/roi" className="btn btn-outline">ROI 计算器</Link>
-          <Link href="/duel" className="btn btn-outline">Agent 对决</Link>
         </div>
       </section>
 

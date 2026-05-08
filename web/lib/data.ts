@@ -92,3 +92,18 @@ export function getArtifact(slug: string): string {
     return "";
   }
 }
+
+export function getCaseContent(slug: string, caseIdx: number): string {
+  const deep = getDeepDive(slug);
+  if (!deep) return "";
+  const c = deep.cases[caseIdx];
+  if (!c?.artifact) return "";
+  // artifact path is /artifacts/...md or /artifacts/cases/...md — map to public folder
+  const rel = c.artifact.replace(/^\//, "");
+  const p = path.join(process.cwd(), "public", rel);
+  try {
+    return fs.readFileSync(p, "utf-8");
+  } catch {
+    return "";
+  }
+}

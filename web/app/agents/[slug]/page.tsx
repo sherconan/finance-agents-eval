@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { data, getArtifact, getDeepDive } from "@/lib/data";
+import { data, getArtifact, getDeepDive, getCaseContent } from "@/lib/data";
 import { mdToHtml } from "@/lib/markdown";
 import { RadarChart } from "@/components/RadarChart";
 
@@ -200,13 +200,28 @@ export default async function AgentDetail({ params }: { params: Promise<{ slug: 
                     <span style={{ color: "var(--text)" }}><strong>{c.result}</strong></span>
                   </div>
 
-                  {c.artifact && (
-                    <div style={{ marginTop: ".75rem", paddingTop: ".75rem", borderTop: "1px solid var(--border)", fontSize: ".82rem" }}>
-                      <a href={c.artifact} download style={{ color: "var(--accent)" }}>
-                        📄 下载实际 artifact ({c.artifact.split("/").pop()})
-                      </a>
-                    </div>
-                  )}
+                  {c.artifact && (() => {
+                    const fullContent = getCaseContent(slug, i);
+                    const fullHtml = fullContent ? mdToHtml(fullContent) : "";
+                    return (
+                      <details style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--border)" }}>
+                        <summary style={{ cursor: "pointer", listStyle: "none", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: ".88rem" }}>
+                          <span style={{ color: "var(--accent)", fontWeight: 600 }}>📖 在页面查看完整 case 内容（点击展开）</span>
+                          <span style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+                            <span className="muted" style={{ fontSize: ".78rem" }}>{(fullContent.length / 1000).toFixed(1)}k 字</span>
+                            <a href={c.artifact} download style={{ color: "var(--text-muted)", fontSize: ".78rem" }}>
+                              ↓ .md
+                            </a>
+                          </span>
+                        </summary>
+                        <article
+                          className="prose-art"
+                          style={{ marginTop: "1rem", padding: "1rem 1.25rem", background: "var(--bg-elev)", border: "1px solid var(--border)", borderRadius: 8, fontSize: ".92rem" }}
+                          dangerouslySetInnerHTML={{ __html: fullHtml }}
+                        />
+                      </details>
+                    );
+                  })()}
                 </article>
               );
             })}

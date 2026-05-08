@@ -11,13 +11,13 @@ export function Header() {
           <span className="muted" style={{ marginLeft: 6, fontWeight: 400 }}>· Eval</span>
         </Link>
         <nav className="nav-row" style={{ display: "flex", gap: "1.25rem", fontSize: ".95rem", flexWrap: "nowrap" }}>
+          <Link href="/results" style={{ color: "var(--accent)", fontWeight: 600 }}>★ 评测结果</Link>
           <Link href="/">榜单</Link>
           <Link href="/compare">对比</Link>
           <Link href="/case">案例</Link>
           <Link href="/roi">ROI</Link>
-          <Link href="/duel">Duel</Link>
-          <Link href="/vs">VS</Link>
-          <Link href="/artifacts" className="hide-on-mobile">产出</Link>
+          <Link href="/duel" className="hide-on-mobile">Duel</Link>
+          <Link href="/vs" className="hide-on-mobile">VS</Link>
           <Link href="/faq" className="hide-on-mobile">FAQ</Link>
           <Link href="/methodology" className="hide-on-mobile">方法论</Link>
           <Link href="https://www.anthropic.com/news/finance-agents" target="_blank" rel="noopener" className="hide-on-mobile">
